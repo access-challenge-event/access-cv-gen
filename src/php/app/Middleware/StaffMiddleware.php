@@ -2,11 +2,14 @@
 
 namespace App\Middleware;
 
+use App\Exceptions\ForbiddenException;
+
 class StaffMiddleware implements Middleware
 {
     /**
      * Ensure the user is logged in AND has the 'staff' role.
-     * Redirects to login if not authenticated, or to home if not staff.
+     * Redirects to login if not authenticated.
+     * Throws ForbiddenException if authenticated but not staff.
      */
     public function handle(): bool
     {
@@ -16,8 +19,7 @@ class StaffMiddleware implements Middleware
         }
 
         if (!isset($_SESSION['loggedIn']['role']) || $_SESSION['loggedIn']['role'] !== 'staff') {
-            header('Location: /');
-            exit;
+            throw new ForbiddenException();
         }
 
         return true;
