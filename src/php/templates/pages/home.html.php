@@ -8,9 +8,15 @@
                     Generate beautiful, AI-enhanced CVs with the power of Gemini. 
                     Highlight your skills, experience, and education effortlessly.
                 </p>
-                <a href="<?php echo get_page_url('create'); ?>" class="btn btn-light btn-lg">
-                    Get Started →
-                </a>
+                <?php if (is_logged_in()): ?>
+                    <a href="<?php echo get_page_url('create'); ?>" class="btn btn-light btn-lg">
+                        Get Started →
+                    </a>
+                <?php else: ?>
+                    <a href="/auth/login" class="btn btn-light btn-lg">
+                        Sign In to Get Started →
+                    </a>
+                <?php endif; ?>
             </div>
             <div class="col-md-4 text-center">
                 <div class="display-1">📋</div>

@@ -13,7 +13,7 @@ $app_env = getenv('APP_ENV') ?: 'development';
 $request_path = explode('?', ltrim($_SERVER['REQUEST_URI'] ?? '', '/'))[0];
 $parts = array_values(array_filter(explode('/', $request_path), 'strlen'));
 $page = $parts[1] ?? ($parts[0] ?? 'home');
-$allowed_pages = ['home', 'create', 'my-cvs', 'login', 'logout', 'callback'];
+$allowed_pages = ['home', 'create', 'my-cvs', 'login', 'register', 'logout', 'callback'];
 
 // Default to home if invalid page
 if (!in_array($page, $allowed_pages)) {
