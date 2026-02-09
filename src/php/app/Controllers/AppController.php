@@ -4,26 +4,26 @@ namespace App\Controllers;
 
 class AppController
 {
-    private function getPdo(): \PDO
-    {
-        $host = getenv('DB_HOST') ?: 'db';
-        $dbName = getenv('DB_NAME') ?: 'cvgen';
-        $user = getenv('DB_USER') ?: 'cvgen_user';
-        $pass = getenv('DB_PASS') ?: 'cvgen_password';
-
-        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=utf8mb4', $host, $dbName);
-
-        return new \PDO($dsn, $user, $pass, [
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-        ]);
-    }
+    public function __construct(
+        private \PDO $pdo
+    ) {}
 
     public function home() {
+        // Test database connection
+        $dbConnected = false;
+        try {
+            $stmt = $this->pdo->query('SELECT 1');
+            $dbConnected = $stmt !== false;
+        } catch (\Exception $e) {
+            $dbConnected = false;
+        }
+
         return [
             'title' => 'Home',
             'template' => 'home.html.php',
-            'vars' => []
+            'vars' => [
+                'dbConnected' => $dbConnected
+            ]
         ];
     }
 

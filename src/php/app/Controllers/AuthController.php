@@ -7,7 +7,7 @@ use Classes\DatabaseTable;
 class AuthController
 {
     public function __construct(
-        //public DatabaseTable $userTable,
+        public DatabaseTable $userTable,
     ) {}
 
     public function login() {
@@ -45,10 +45,10 @@ class AuthController
             $email = $_POST['email'];
 
             $record = [
-                'id' => '',
+                'user_id' => '',
                 'username' => $username,
-                'password' => $password,
                 'email' => $email,
+                'password' => $password,
             ];
 
             // save user then fetch
@@ -58,13 +58,10 @@ class AuthController
 
             if (count($users) > 0) {
                 $user = $users[0];
-
-                // log in the user automatically
                 login($user);
             }
 
             unset($_POST);
-
             redirect('/auth/login');
         }
 
