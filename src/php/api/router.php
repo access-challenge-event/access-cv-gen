@@ -63,11 +63,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/../includes/config.php';
 
 // Load API classes
+<<<<<<< HEAD
 require_once __DIR__ . '/../includes/api/DeepSeekClient.php';
 require_once __DIR__ . '/../includes/api/InputSanitizer.php';
 require_once __DIR__ . '/../includes/api/BaseQuery.php';
 
 use CVGen\Api\DeepSeekClient;
+=======
+require_once __DIR__ . '/../includes/api/GeminiClient.php';
+require_once __DIR__ . '/../includes/api/InputSanitizer.php';
+require_once __DIR__ . '/../includes/api/BaseQuery.php';
+
+use CVGen\Api\GeminiClient;
+>>>>>>> ad80f208eb4a06f7937be68b7747c2902c50dc2a
 use CVGen\Api\InputSanitizer;
 
 // Parse JSON body
@@ -92,10 +100,15 @@ if (!$action) {
 // --- Query Registry ---
 // To add a new query: create a class in includes/api/queries/ and add it here.
 $queryMap = [
+<<<<<<< HEAD
     'grade_cv'                    => 'GradeCVQuery',
     'generate_cv'                 => 'GenerateCVQuery',
     'generate_interview_questions' => 'GenerateInterviewQuestionsQuery',
     'grade_interview_answers'      => 'GradeInterviewAnswersQuery',
+=======
+    'grade_cv'    => 'GradeCVQuery',
+    'generate_cv' => 'GenerateCVQuery',
+>>>>>>> ad80f208eb4a06f7937be68b7747c2902c50dc2a
 ];
 
 if (!isset($queryMap[$action])) {
@@ -121,14 +134,22 @@ require_once $queryFile;
 $fqcn = "CVGen\\Api\\Queries\\{$queryClass}";
 
 try {
+<<<<<<< HEAD
     $ai = new DeepSeekClient();
+=======
+    $gemini = new GeminiClient();
+>>>>>>> ad80f208eb4a06f7937be68b7747c2902c50dc2a
     $sanitizer = new InputSanitizer();
 
     // TODO: Pass database connection once DB integration is ready
     // $db = get_db();
 
     /** @var \CVGen\Api\BaseQuery $query */
+<<<<<<< HEAD
     $query = new $fqcn($ai, $sanitizer);
+=======
+    $query = new $fqcn($gemini, $sanitizer);
+>>>>>>> ad80f208eb4a06f7937be68b7747c2902c50dc2a
 
     $result = $query->execute($data);
 
