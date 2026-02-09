@@ -52,4 +52,8 @@ function get_page_title($page_name) {
     ];
     return isset($titles[$page_name]) ? $titles[$page_name] : 'Home';
 }
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> cdd7f17 (feat: oauth semi working)
