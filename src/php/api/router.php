@@ -92,8 +92,10 @@ if (!$action) {
 // --- Query Registry ---
 // To add a new query: create a class in includes/api/queries/ and add it here.
 $queryMap = [
-    'grade_cv'    => 'GradeCVQuery',
-    'generate_cv' => 'GenerateCVQuery',
+    'grade_cv'                    => 'GradeCVQuery',
+    'generate_cv'                 => 'GenerateCVQuery',
+    'generate_interview_questions' => 'GenerateInterviewQuestionsQuery',
+    'grade_interview_answers'      => 'GradeInterviewAnswersQuery',
 ];
 
 if (!isset($queryMap[$action])) {
