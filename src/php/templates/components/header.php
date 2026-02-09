@@ -36,19 +36,22 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('home'); ?>" href="<?php echo get_page_url('home'); ?>">Home</a></li>
                     <?php if (is_logged_in()) { ?>
+                        <?php if (is_logged_in()) { ?>
                         <li class="nav-item"><a class="nav-link <?php echo is_active_page('create'); ?>" href="<?php echo get_page_url('create'); ?>">Create CV</a></li>
-                        <li class="nav-item"><a class="nav-link <?php echo is_active_page('my-cvs'); ?>" href="<?php echo get_page_url('my-cvs'); ?>">My CVs</a></li>
-                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('jobs'); ?>" href="<?php echo get_page_url('jobs'); ?>">Jobs</a></li>
+                            <li class="nav-item"><a class="nav-link <?php echo is_active_page('my-cvs'); ?>" href="<?php echo get_page_url('my-cvs'); ?>">My CVs</a></li>
+                        <li class="nav-item"><a class="nav-link <?php echo is_active_page('jobs'); ?>" href="<?php echo get_page_url('jobs'); ?>">Jobs</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <?php echo htmlspecialchars(get_current_user_data()['name']); ?>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="<?php echo get_page_url('logout'); ?>">Logout</a></li>
-                            </ul>
-                        </li>
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <?php echo htmlspecialchars(get_current_user_data()['name']); ?>    <?php echo htmlspecialchars(get_current_user_data()['name']); ?>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="<?php echo get_page_url('logout'); ?>">Logout</a></li>
+                                </ul>
+                            </li>
                     <?php } else { ?>
+                        <?php } else { ?>
                         <li class="nav-item"><a class="nav-link <?php echo is_active_page('login'); ?>" href="<?php echo get_page_url('login'); ?>">Login</a></li>
+                    <?php } ?>
                     <?php } ?>
                 </ul>
             </div>

@@ -104,6 +104,11 @@ CREATE TABLE `users` (
   `lastname` varchar(24),
   `age` date,
   `about` varchar(512),
+  `password` varchar(255) NOT NULL,
+  `firstname` varchar(24),
+  `lastname` varchar(24),
+  `age` date,
+  `about` varchar(512),
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int DEFAULT '0'
