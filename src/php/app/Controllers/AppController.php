@@ -42,8 +42,7 @@ class AppController
         $error = null;
 
         try {
-            $pdo = $this->getPdo();
-            $stmt = $pdo->prepare(
+            $stmt = $this->pdo->prepare(
                 'SELECT job_id, title, company, location, employment_type, level, description, responsibilities, requirements, salary_range, posted_date
                  FROM job_listings
                  WHERE deleted = 0
