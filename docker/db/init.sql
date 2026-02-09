@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 09, 2026 at 04:52 PM
+-- Generation Time: Feb 09, 2026 at 09:28 PM
 -- Server version: 8.4.8
 -- PHP Version: 8.3.30
 
@@ -88,6 +88,13 @@ CREATE TABLE `education` (
   `deleted` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `education`
+--
+
+INSERT INTO `education` (`education_id`, `user_id`, `title`, `school`, `length`, `graduation_date`, `date_created`, `date_updated`, `deleted`) VALUES
+(1, 1, '123', '123', 4, '3123-03-12 00:00:00', '2026-02-09 21:27:55', '2026-02-09 21:27:55', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -104,26 +111,6 @@ CREATE TABLE `experience` (
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `user_id` int NOT NULL,
-  `username` varchar(24) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `firstname` varchar(24),
-  `lastname` varchar(24),
-  `age` date,
-  `about` varchar(512),
-  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `deleted` int DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -163,6 +150,31 @@ INSERT INTO `job_listings` (`job_id`, `title`, `company`, `location`, `employmen
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int NOT NULL,
+  `username` varchar(24) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `firstname` varchar(24) DEFAULT NULL,
+  `lastname` varchar(24) DEFAULT NULL,
+  `age` date DEFAULT NULL,
+  `about` varchar(512) DEFAULT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted` int DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `firstname`, `lastname`, `age`, `about`, `date_created`, `date_updated`, `deleted`) VALUES
+(1, 'asd', 'joecreasy@proton.me', '$2y$10$dcXBVctubG/hU4vl2Kqube2YWdCRHEKtTRdneoJwnNgi8MhF9Kw/6', NULL, NULL, NULL, NULL, '2026-02-09 21:25:41', '2026-02-09 21:25:41', 0);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -197,6 +209,13 @@ ALTER TABLE `experience`
   ADD PRIMARY KEY (`experience_id`);
 
 --
+-- Indexes for table `job_listings`
+--
+ALTER TABLE `job_listings`
+  ADD PRIMARY KEY (`job_id`),
+  ADD UNIQUE KEY `job_id` (`job_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -205,21 +224,20 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `unique_email` (`email`);
 
 --
--- Indexes for table `job_listings`
---
-ALTER TABLE `job_listings`
-  ADD PRIMARY KEY (`job_id`),
-  ADD UNIQUE KEY `job_id` (`job_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `awards`
 --
-ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `awards`
+  MODIFY `award_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `chats`
+--
+ALTER TABLE `chats`
+  MODIFY `chat_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cvs`
@@ -228,10 +246,28 @@ ALTER TABLE `cvs`
   MODIFY `cv_id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `education`
+--
+ALTER TABLE `education`
+  MODIFY `education_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `experience`
+--
+ALTER TABLE `experience`
+  MODIFY `experience_id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `job_listings`
 --
 ALTER TABLE `job_listings`
   MODIFY `job_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
