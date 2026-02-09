@@ -196,94 +196,67 @@ class AppController
         ];
     }
 
-    public function profile()
+    public function viewCv()
     {
         login_check();
 
         $userId = $this->getUserId();
-        $message = null;
-        $error = null;
+        $cvId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+        $cv = null;
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $action = $_POST['action'] ?? '';
+        if ($cvId > 0) {
+            // Load CV from database (ensure it belongs to the user)
+            $stmt = $this->pdo->prepare(
+                'SELECT cv_id, content_json, score, job_target, date_created
+                 FROM cvs
+                 WHERE cv_id = ? AND user_id = ? AND deleted = 0'
+            );
+            $stmt->execute([$cvId, $userId]);
+            $cv = $stmt->fetch();
 
-                switch ($action) {
-                    case 'update_profile':
-                        $stmt = $this->pdo->prepare(
-                            'UPDATE users SET firstname = ?, lastname = ?, age = ?, about = ? WHERE user_id = ?'
-                        );
-                        $stmt->execute([
-                            $_POST['firstname'] ?? '',
-                            $_POST['lastname'] ?? '',
-                            $_POST['age'] ?: null,
-                            $_POST['about'] ?? '',
-                            $userId
-                        ]);
-
-                        // Update session username if changed
-                        if (!empty($_POST['username'])) {
-                            $existing = $this->pdo->prepare('SELECT user_id FROM users WHERE username = ? AND user_id != ?');
-                            $existing->execute([$_POST['username'], $userId]);
-                            if ($existing->rowCount() === 0) {
-                                $stmtU = $this->pdo->prepare('UPDATE users SET username = ? WHERE user_id = ?');
-                                $stmtU->execute([$_POST['username'], $userId]);
-                                $_SESSION['loggedIn']['username'] = $_POST['username'];
-                            } else {
-                                $error = 'That username is already taken.';
-                            }
-                        }
-
-                        if (!$error) {
-                            $message = 'Profile updated successfully.';
-                        }
-                        break;
-
-                    case 'change_password':
-                        $current = $_POST['current_password'] ?? '';
-                        $new = $_POST['new_password'] ?? '';
-                        $confirm = $_POST['confirm_password'] ?? '';
-
-                        if ($new !== $confirm) {
-                            $error = 'New passwords do not match.';
-                            break;
-                        }
-                        if (strlen($new) < 6) {
-                            $error = 'New password must be at least 6 characters.';
-                            break;
-                        }
-
-                        $stmt = $this->pdo->prepare('SELECT password FROM users WHERE user_id = ?');
-                        $stmt->execute([$userId]);
-                        $row = $stmt->fetch();
-
-                        if (!$row || !password_verify($current, $row['password'])) {
-                            $error = 'Current password is incorrect.';
-                            break;
-                        }
-
-                        $hashed = password_hash($new, PASSWORD_DEFAULT);
-                        $stmt = $this->pdo->prepare('UPDATE users SET password = ? WHERE user_id = ?');
-                        $stmt->execute([$hashed, $userId]);
-                        $message = 'Password changed successfully.';
-                        break;
-                }
-            } catch (\Exception $e) {
-                $error = 'Something went wrong. Please try again.';
+            if ($cv && $cv['content_json']) {
+                $cvData = json_decode($cv['content_json'], true);
+                $cv['content'] = $cvData['content'] ?? '';
+                $cv['job_target'] = $cvData['job_target'] ?? $cv['job_target'];
             }
         }
 
-        // Load user data
-        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE user_id = ? AND deleted = 0');
-        $stmt->execute([$userId]);
-        $user = $stmt->fetch() ?: null;
+        return [
+            'title' => 'View CV',
+            'template' => 'view-cv.html.php',
+            'vars' => [
+                'cv' => $cv,
+                'cvId' => $cvId,
+            ]
+        ];
+    }
+
+    public function myCvs()
+    {
+        login_check();
+
+        $userId = $this->getUserId();
+        $cvs = [];
+        $error = null;
+
+        try {
+            $stmt = $this->pdo->prepare(
+                'SELECT cv_id, score, job_target, date_created
+                 FROM cvs
+                 WHERE user_id = ? AND deleted = 0
+                 ORDER BY date_created DESC'
+            );
+            $stmt->execute([$userId]);
+            $cvs = $stmt->fetchAll();
+        } catch (\Throwable $e) {
+            $error = 'Unable to load your CVs.';
+        }
 
         return [
-            'title' => 'My Profile',
-            'template' => 'profile.html.php',
+            'title' => 'My CVs',
+            'template' => 'my-cvs.html.php',
             'vars' => [
-                'user' => $user,
-                'message' => $message,
+                'cvs' => $cvs,
                 'error' => $error,
             ]
         ];

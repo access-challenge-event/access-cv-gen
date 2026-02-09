@@ -13,6 +13,7 @@ use CVGen\Api\BaseQuery;
  *  - summary (string, optional): Brief professional summary / personal statement.
  *  - experience (array, optional): List of { job_title, company, start_date, end_date, description }.
  *  - education (array, optional): List of { institution, degree, field, graduation_date }.
+ *  - awards (array, optional): List of { title, description }.
  *  - skills (array, optional): List of skill strings.
  *  - existing_cv (string, optional): Text of an uploaded CV to use as a base.
  *  - job_target (string, optional): The role the CV should be tailored for.
@@ -80,6 +81,11 @@ class GenerateCVQuery extends BaseQuery
             $sections[] = $this->sanitizer->wrapAsData('Education', $eduText);
         }
 
+        if (!empty($cleanData['awards']) && is_array($cleanData['awards'])) {
+            $awardsText = $this->formatAwards($cleanData['awards']);
+            $sections[] = $this->sanitizer->wrapAsData('Awards & Achievements', $awardsText);
+        }
+
         if (!empty($cleanData['skills']) && is_array($cleanData['skills'])) {
             $skillList = implode(', ', array_map(
                 fn($s) => $this->sanitizer->clean(is_string($s) ? $s : '', 100),
@@ -124,6 +130,18 @@ class GenerateCVQuery extends BaseQuery
             $date  = $this->sanitizer->clean($edu['graduation_date'] ?? '', 20);
 
             $lines[] = "- {$deg} in {$field} from {$inst} ({$date})";
+        }
+        return implode("\n", $lines);
+    }
+
+    private function formatAwards(array $items): string
+    {
+        $lines = [];
+        foreach ($items as $award) {
+            $title = $this->sanitizer->clean($award['title'] ?? '', 200);
+            $desc  = $this->sanitizer->clean($award['description'] ?? '', 500);
+
+            $lines[] = "- {$title}: {$desc}";
         }
         return implode("\n", $lines);
     }

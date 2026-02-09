@@ -10,7 +10,7 @@ $app_env = getenv('APP_ENV') ?: 'development';
 $request_path = explode('?', ltrim($_SERVER['REQUEST_URI'] ?? '', '/'))[0];
 $parts = array_values(array_filter(explode('/', $request_path), 'strlen'));
 $page = $parts[1] ?? ($parts[0] ?? 'home');
-$allowed_pages = ['home', 'create', 'my-cvs', 'jobs', 'login', 'register', 'register', 'logout', 'callback', 'profile'];
+$allowed_pages = ['home', 'create', 'my-cvs', 'myCvs', 'jobs', 'login', 'register', 'register', 'logout', 'callback', 'viewCv'];
 
 // Default to home if invalid page
 if (!in_array($page, $allowed_pages)) {
@@ -28,7 +28,7 @@ function get_page_url($page_name) {
     $routes = [
         'home' => '/app/home',
         'create' => '/app/create',
-        'my-cvs' => '/app/my-cvs',
+        'my-cvs' => '/app/myCvs',
         'jobs' => '/app/jobs',
         'profile' => '/app/profile',
         'login' => '/auth/login',

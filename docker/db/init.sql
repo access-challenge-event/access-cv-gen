@@ -62,9 +62,11 @@ CREATE TABLE `chats` (
 CREATE TABLE `cvs` (
   `cv_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `job_id` int NOT NULL,
-  `content_json` blob NOT NULL,
-  `file` varchar(50) NOT NULL,
+  `job_id` int DEFAULT 0,
+  `content_json` mediumblob NOT NULL,
+  `score` int DEFAULT NULL,
+  `job_target` varchar(300) DEFAULT NULL,
+  `file` varchar(50) DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int NOT NULL DEFAULT '0'
@@ -155,7 +157,7 @@ CREATE TABLE `users` (
   `lastname` varchar(24) DEFAULT NULL,
   `age` date DEFAULT NULL,
   `role` varchar(10) DEFAULT NULL,
-  `about` varchar(512) DEFAULT NULL,
+  `about` TEXT DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int DEFAULT '0'

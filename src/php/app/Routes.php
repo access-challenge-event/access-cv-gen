@@ -15,7 +15,8 @@ class Routes {
         return [
             'staff/dashboard' => [new StaffMiddleware()],
             'app/create' => [new AuthMiddleware()],
-            'app/profile' => [new AuthMiddleware()],
+            'app/viewCv' => [new AuthMiddleware()],
+            'app/myCvs' => [new AuthMiddleware()],
         ];
     }
 

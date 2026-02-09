@@ -59,8 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Start session for user authentication
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Load app config (session, auth, autoloader, db helpers)
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../database.php';
 
 // Load API classes
 require_once __DIR__ . '/../includes/api/DeepSeekClient.php';
@@ -69,6 +75,9 @@ require_once __DIR__ . '/../includes/api/BaseQuery.php';
 
 use CVGen\Api\DeepSeekClient;
 use CVGen\Api\InputSanitizer;
+
+// Get current user ID from session
+$currentUserId = $_SESSION['loggedIn']['id'] ?? null;
 
 // Parse JSON body
 $rawBody = file_get_contents('php://input');
@@ -96,7 +105,17 @@ $queryMap = [
     'generate_cv'                 => 'GenerateCVQuery',
     'generate_interview_questions' => 'GenerateInterviewQuestionsQuery',
     'grade_interview_answers'      => 'GradeInterviewAnswersQuery',
+    'save_cv'                     => 'SaveCVQuery',
 ];
+
+// Actions that require authentication
+$authRequired = ['save_cv'];
+
+if (in_array($action, $authRequired) && !$currentUserId) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Authentication required']);
+    exit;
+}
 
 if (!isset($queryMap[$action])) {
     http_response_code(400);
@@ -124,11 +143,14 @@ try {
     $ai = new DeepSeekClient();
     $sanitizer = new InputSanitizer();
 
-    // TODO: Pass database connection once DB integration is ready
-    // $db = get_db();
-
     /** @var \CVGen\Api\BaseQuery $query */
     $query = new $fqcn($ai, $sanitizer);
+
+    // Pass database connection for queries that need it
+    if ($action === 'save_cv') {
+        $query->setDatabase($pdo);
+        $data['user_id'] = $currentUserId;
+    }
 
     $result = $query->execute($data);
 
