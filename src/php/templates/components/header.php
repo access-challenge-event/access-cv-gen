@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:src/php/includes/header.php
 <<<<<<< HEAD
 <!DOCTYPE html>
@@ -64,16 +65,22 @@
 =======
 =======
 >>>>>>> fe6f1b2 (refactor: routing, autoloading and added basic MVC architecture):src/php/templates/components/header.php
+=======
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
 <<<<<<< HEAD:src/php/includes/header.php
     <title>CV Generator - <?php echo get_page_title($page); ?></title>
 =======
     <title>CV Generator - <?php echo htmlspecialchars($title ?? get_page_title($page ?? 'home')); ?></title>
 >>>>>>> fe6f1b2 (refactor: routing, autoloading and added basic MVC architecture):src/php/templates/components/header.php
+=======
+    <title>CV Generator - <?php echo htmlspecialchars($title ?? get_page_title($page ?? 'home')); ?></title>
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
     
     <!-- Bootstrap 5 CSS from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -105,6 +112,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('home'); ?>" href="<?php echo get_page_url('home'); ?>">Home</a></li>
+<<<<<<< HEAD
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('create'); ?>" href="<?php echo get_page_url('create'); ?>">Create CV</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('my-cvs'); ?>" href="<?php echo get_page_url('my-cvs'); ?>">My CVs</a></li>
 <<<<<<< HEAD:src/php/includes/header.php
@@ -114,13 +122,38 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             
+=======
+                    <?php if (is_logged_in()): ?>
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('create'); ?>" href="<?php echo get_page_url('create'); ?>">Create CV</a></li>
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('my-cvs'); ?>" href="<?php echo get_page_url('my-cvs'); ?>">My CVs</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+<<<<<<<< HEAD:src/php/includes/header.php
+                            <?php
+                            $user = get_current_user_data();
+                            echo htmlspecialchars($user['name']);
+                            ?>
+========
+                            
+>>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615:src/php/templates/components/header.php
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="<?php echo get_page_url('logout'); ?>">Logout</a></li>
                         </ul>
                     </li>
+<<<<<<< HEAD
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('login'); ?>" href="<?php echo get_page_url('login'); ?>">Login</a></li>
 >>>>>>> fe6f1b2 (refactor: routing, autoloading and added basic MVC architecture):src/php/templates/components/header.php
+=======
+<<<<<<<< HEAD:src/php/includes/header.php
+                    <?php else: ?>
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('login'); ?>" href="<?php echo get_page_url('login'); ?>">Login</a></li>
+                    <?php endif; ?>
+========
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('login'); ?>" href="<?php echo get_page_url('login'); ?>">Login</a></li>
+>>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615:src/php/templates/components/header.php
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
                 </ul>
             </div>
         </div>
@@ -128,7 +161,10 @@
 
     <!-- Main Content -->
     <main>
+<<<<<<< HEAD
 <<<<<<< HEAD:src/php/includes/header.php
 >>>>>>> f5d48be (add my-account and upload-cv pages; update routing and titles)
 =======
 >>>>>>> fe6f1b2 (refactor: routing, autoloading and added basic MVC architecture):src/php/templates/components/header.php
+=======
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615

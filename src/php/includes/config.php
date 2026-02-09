@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
 <?php
 /**
  * Shared configuration and helper functions
@@ -52,6 +55,7 @@ function get_page_title($page_name) {
     return isset($titles[$page_name]) ? $titles[$page_name] : 'Home';
 }
 ?>
+<<<<<<< HEAD
 =======
 <?php
 /**
@@ -94,3 +98,5 @@ function get_page_title($page_name) {
 }
 ?>
 >>>>>>> f5d48be (add my-account and upload-cv pages; update routing and titles)
+=======
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615

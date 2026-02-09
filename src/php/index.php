@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
 <?php
 /**
  * CV Generator - Main Application Entry Point
@@ -8,6 +11,7 @@
 require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/includes/config.php';
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // Handle logout (no page render needed)
 if ($page === 'logout') {
@@ -67,3 +71,7 @@ require_once 'includes/footer.php';
 $entryPoint = new \App\EntryPoint(new \App\Routes());
 $entryPoint->run();
 >>>>>>> fe6f1b2 (refactor: routing, autoloading and added basic MVC architecture)
+=======
+$entryPoint = new \App\EntryPoint(new \App\Routes());
+$entryPoint->run();
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615

@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
@@ -6,6 +9,7 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
+<<<<<<< HEAD
 =======
 RewriteEngine On
 
@@ -17,3 +21,5 @@ RewriteRule ^ - [L]
 # Route /api/* requests to the API router
 RewriteRule ^api/(.*)$ api/router.php [QSA,L]
 >>>>>>> ad80f20 (added functionality for api calls and base classes)
+=======
+>>>>>>> 1fb05d977f9af7fd71a6dc807c62f882f8bcb615
