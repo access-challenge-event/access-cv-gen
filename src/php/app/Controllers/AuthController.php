@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Classes\DatabaseTable;
 
+// REMOVE THIS COMMENT AFTER, ITS LITERALLY HERE JUST SO I CAN PUSH A CHANGE
 class AuthController
 {
     public function __construct(
