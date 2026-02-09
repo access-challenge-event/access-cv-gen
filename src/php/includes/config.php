@@ -3,9 +3,6 @@
  * Shared configuration and helper functions
  */
 
-// Load auth (starts session, loads Composer autoloader)
-require_once __DIR__ . '/auth.php';
-
 // Get environment variables
 $app_env = getenv('APP_ENV') ?: 'development';
 
