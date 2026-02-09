@@ -12,22 +12,22 @@ namespace CVGen\Api;
  */
 abstract class BaseQuery
 {
-    protected GeminiClient $gemini;
+    protected DeepSeekClient $ai;
     protected InputSanitizer $sanitizer;
 
     // TODO: Add database property once DB integration is wired up
     // Use get_db() from includes/auth.php to obtain a PDO instance
     // protected \PDO $db;
 
-    /** Gemini sampling temperature – override per query if needed. */
+    /** Sampling temperature – override per query if needed. */
     protected float $temperature = 0.7;
 
     /** Max output tokens – override per query if needed. */
     protected int $maxTokens = 4096;
 
-    public function __construct(GeminiClient $gemini, InputSanitizer $sanitizer)
+    public function __construct(DeepSeekClient $ai, InputSanitizer $sanitizer)
     {
-        $this->gemini    = $gemini;
+        $this->ai        = $ai;
         $this->sanitizer = $sanitizer;
     }
 
@@ -48,8 +48,8 @@ abstract class BaseQuery
         // 3. Build the prompt (system instructions + wrapped user data)
         $prompt = $this->buildPrompt($clean);
 
-        // 4. Call Gemini
-        $raw = $this->gemini->generate($prompt, $this->temperature, $this->maxTokens);
+        // 4. Call DeepSeek
+        $raw = $this->ai->generate($prompt, $this->temperature, $this->maxTokens);
 
         // 5. Log the call
         // TODO: Log API call to chats table once DB integration is ready

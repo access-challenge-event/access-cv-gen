@@ -63,11 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/../includes/config.php';
 
 // Load API classes
-require_once __DIR__ . '/../includes/api/GeminiClient.php';
+require_once __DIR__ . '/../includes/api/DeepSeekClient.php';
 require_once __DIR__ . '/../includes/api/InputSanitizer.php';
 require_once __DIR__ . '/../includes/api/BaseQuery.php';
 
-use CVGen\Api\GeminiClient;
+use CVGen\Api\DeepSeekClient;
 use CVGen\Api\InputSanitizer;
 
 // Parse JSON body
@@ -119,14 +119,14 @@ require_once $queryFile;
 $fqcn = "CVGen\\Api\\Queries\\{$queryClass}";
 
 try {
-    $gemini = new GeminiClient();
+    $ai = new DeepSeekClient();
     $sanitizer = new InputSanitizer();
 
     // TODO: Pass database connection once DB integration is ready
     // $db = get_db();
 
     /** @var \CVGen\Api\BaseQuery $query */
-    $query = new $fqcn($gemini, $sanitizer);
+    $query = new $fqcn($ai, $sanitizer);
 
     $result = $query->execute($data);
 
