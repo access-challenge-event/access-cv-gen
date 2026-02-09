@@ -53,7 +53,7 @@
                                 </td>
                             </tr>
                             <tr class="table-light">
-                                <td colspan="7">
+                                <td colspan="8">
                                     <div class="row g-3">
                                         <div class="col-lg-4">
                                             <h3 class="h6">Description</h3>
@@ -97,12 +97,16 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Interview Questions</h5>
+                <div>
+                    <h5 class="modal-title mb-1">Interview Questions</h5>
+                    <small id="interview-qs-role" class="text-muted"></small>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="interview-qs-loading" class="text-center py-3">
-                    <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+                <div id="interview-qs-loading" class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+                    <p class="mt-2 text-muted mb-0">Generating interview questions...</p>
                 </div>
                 <div id="interview-qs-content" style="display:none;"></div>
                 <div id="interview-qs-error" class="alert alert-danger" style="display:none;"></div>
@@ -121,14 +125,35 @@
         return new bootstrap.Modal(modalEl);
     }
 
+    function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     function renderQuestions(container, questions) {
-        var html = ['<div class="list-group">'];
-        questions.forEach(function (q) {
-            var num = q.question_number ?? '';
-            html.push('<div class="list-group-item">');
-            html.push('<h6 class="mb-1">' + (num ? ('Question ' + num) : '') + '</h6>');
-            html.push('<p class="mb-1"><strong>Q:</strong> ' + (q.question || '') + '</p>');
-            html.push('<p class="mb-0 text-muted"><strong>A:</strong> ' + (q.answer || '') + '</p>');
+        var html = ['<div class="accordion" id="interviewQsAccordion">'];
+        questions.forEach(function (q, index) {
+            var num = q.question_number || (index + 1);
+            var collapseId = 'collapse-q-' + num;
+            var headingId = 'heading-q-' + num;
+            var expanded = index === 0 ? 'true' : 'false';
+            var showClass = index === 0 ? 'show' : '';
+            var collapsedClass = index === 0 ? '' : 'collapsed';
+
+            html.push('<div class="accordion-item">');
+            html.push('<h2 class="accordion-header" id="' + headingId + '">');
+            html.push('<button class="accordion-button ' + collapsedClass + '" type="button" data-bs-toggle="collapse" data-bs-target="#' + collapseId + '" aria-expanded="' + expanded + '" aria-controls="' + collapseId + '">');
+            html.push('<span class="badge bg-primary me-2">' + num + '</span>');
+            html.push(escapeHtml(q.question || ''));
+            html.push('</button>');
+            html.push('</h2>');
+            html.push('<div id="' + collapseId + '" class="accordion-collapse collapse ' + showClass + '" aria-labelledby="' + headingId + '" data-bs-parent="#interviewQsAccordion">');
+            html.push('<div class="accordion-body">');
+            html.push('<p class="mb-2"><strong>Example Answer:</strong></p>');
+            html.push('<p class="text-muted mb-0">' + escapeHtml(q.answer || '') + '</p>');
+            html.push('</div>');
+            html.push('</div>');
             html.push('</div>');
         });
         html.push('</div>');
@@ -144,17 +169,19 @@
         var loading = document.getElementById('interview-qs-loading');
         var content = document.getElementById('interview-qs-content');
         var errorEl = document.getElementById('interview-qs-error');
+        var roleEl = document.getElementById('interview-qs-role');
 
         loading.style.display = '';
         content.style.display = 'none';
         errorEl.style.display = 'none';
         content.innerHTML = '';
+        roleEl.textContent = role;
 
         modal.show();
 
         btn.disabled = true;
 
-        fetch('/src/php/api/router.php', {
+        fetch('/api/router.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'generate_interview_questions', data: { role: role } })
