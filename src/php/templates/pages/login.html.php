@@ -1,3 +1,7 @@
+<style>
+
+</style>
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -14,6 +18,20 @@
                         </svg>
                         Sign in with Google
                     </a>
+
+                    <div class="mt-3 row g-3">
+                        <form method="POST">
+                            <label for="email">Email: </label>
+                            <input type="input" id="email" name="email" />
+                            <br />
+                            
+                            <label for="password">Password: </label>
+                            <input type="password" id="password" name="password" />
+                            <br />
+                            
+                            <input type="submit" id="submit" name="submit" value="Register"/>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
