@@ -2,29 +2,29 @@
 namespace CVGen\Api;
 
 /**
- * HTTP client for the Google Gemini API.
+ * HTTP client for the DeepSeek API (OpenAI-compatible format).
  *
  * Handles authentication, request formatting, and response parsing.
  * All query classes should use this rather than calling cURL directly.
  */
-class GeminiClient
+class DeepSeekClient
 {
     private string $apiKey;
     private string $model;
-    private string $baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
+    private string $baseUrl = 'https://api.deepseek.com/v1';
 
-    public function __construct(?string $apiKey = null, string $model = 'gemini-2.0-flash')
+    public function __construct(?string $apiKey = null, string $model = 'deepseek-chat')
     {
-        $this->apiKey = $apiKey ?? (getenv('GEMINI_API_KEY') ?: '');
+        $this->apiKey = $apiKey ?? (getenv('DEEPSEEK_API_KEY') ?: '');
         $this->model = $model;
 
-        if ($this->apiKey === '' || $this->apiKey === getenv()) {
-            throw new \RuntimeException('GEMINI_API_KEY is not configured');
+        if ($this->apiKey === '') {
+            throw new \RuntimeException('DEEPSEEK_API_KEY is not configured');
         }
     }
 
     /**
-     * Send a prompt to Gemini and return the text response.
+     * Send a prompt to DeepSeek and return the text response.
      *
      * @param string      $prompt         The full prompt (system instructions + wrapped user data).
      * @param float       $temperature    Sampling temperature (0.0 – 2.0).
@@ -37,29 +37,26 @@ class GeminiClient
         float $temperature = 0.7,
         int $maxTokens = 4096
     ): array {
-        $url = "{$this->baseUrl}/{$this->model}:generateContent?key={$this->apiKey}";
+        $url = "{$this->baseUrl}/chat/completions";
 
         $payload = [
-            'contents' => [
+            'model'       => $this->model,
+            'messages'    => [
                 [
-                    'parts' => [
-                        ['text' => $prompt],
-                    ],
+                    'role'    => 'user',
+                    'content' => $prompt,
                 ],
             ],
-            'generationConfig' => [
-                'temperature'     => $temperature,
-                'maxOutputTokens' => $maxTokens,
-            ],
+            'temperature'  => $temperature,
+            'max_tokens'   => $maxTokens,
         ];
 
         $response = $this->post($url, $payload);
 
-        // Extract text from Gemini response structure
-        $text = $response['candidates'][0]['content']['parts'][0]['text']
-            ?? '';
+        // Extract text from OpenAI-compatible response structure
+        $text = $response['choices'][0]['message']['content'] ?? '';
 
-        $usage = $response['usageMetadata'] ?? [];
+        $usage = $response['usage'] ?? [];
 
         return [
             'text'  => $text,
@@ -78,7 +75,10 @@ class GeminiClient
 
         curl_setopt_array($ch, [
             CURLOPT_POST           => true,
-            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+            CURLOPT_HTTPHEADER     => [
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $this->apiKey,
+            ],
             CURLOPT_POSTFIELDS     => json_encode($payload),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 120,
@@ -98,7 +98,7 @@ class GeminiClient
 
         if ($httpCode >= 400) {
             $message = $decoded['error']['message'] ?? "HTTP {$httpCode}";
-            throw new \RuntimeException("Gemini API error: {$message}");
+            throw new \RuntimeException("DeepSeek API error: {$message}");
         }
 
         return $decoded ?? [];
