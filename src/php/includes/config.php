@@ -35,7 +35,7 @@ function get_page_url($page_name) {
         'callback' => '/auth/callback',
 
         'staff-dashboard' => '/app/staff/home',
-        'staff-job' => '/app/staff/jobs'
+        'staff-job' => '/app/staff/jobs',
     ];
 
     return $routes[$page_name] ?? '/app/home';
@@ -51,7 +51,7 @@ function get_page_title($page_name) {
         'login' => 'Login',
         
         'staff-dashboard' => 'Staff Dashboard',
-        'staff-job' => '/app/staff/jobs'
+        'staff-job' => 'Staff Jobs',
     ];
     return isset($titles[$page_name]) ? $titles[$page_name] : 'Home';
 }
