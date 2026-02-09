@@ -28,14 +28,143 @@ class AppController
         ];
     }
 
+    private function getUserId(): int
+    {
+        return $_SESSION['loggedIn']['id'] ?? 0;
+    }
+
     public function create()
     {
         login_check();
 
+        $userId = $this->getUserId();
+        $message = null;
+        $error = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $action = $_POST['action'] ?? '';
+
+            try {
+                switch ($action) {
+                    case 'add_education':
+                        $stmt = $this->pdo->prepare(
+                            'INSERT INTO education (user_id, title, school, length, graduation_date) VALUES (?, ?, ?, ?, ?)'
+                        );
+                        $stmt->execute([
+                            $userId,
+                            $_POST['title'] ?? '',
+                            $_POST['school'] ?? '',
+                            (int)($_POST['length'] ?? 0),
+                            $_POST['graduation_date'] ?? date('Y-m-d')
+                        ]);
+                        $message = 'Education added successfully.';
+                        break;
+
+                    case 'delete_education':
+                        $stmt = $this->pdo->prepare(
+                            'UPDATE education SET deleted = 1 WHERE education_id = ? AND user_id = ?'
+                        );
+                        $stmt->execute([(int)$_POST['education_id'], $userId]);
+                        $message = 'Education deleted.';
+                        break;
+
+                    case 'add_experience':
+                        $stmt = $this->pdo->prepare(
+                            'INSERT INTO experience (user_id, job_title, location, duration, content) VALUES (?, ?, ?, ?, ?)'
+                        );
+                        $stmt->execute([
+                            $userId,
+                            $_POST['job_title'] ?? '',
+                            $_POST['location'] ?? '',
+                            $_POST['duration'] ?? '',
+                            $_POST['content'] ?? ''
+                        ]);
+                        $message = 'Experience added successfully.';
+                        break;
+
+                    case 'delete_experience':
+                        $stmt = $this->pdo->prepare(
+                            'UPDATE experience SET deleted = 1 WHERE experience_id = ? AND user_id = ?'
+                        );
+                        $stmt->execute([(int)$_POST['experience_id'], $userId]);
+                        $message = 'Experience deleted.';
+                        break;
+
+                    case 'add_award':
+                        $stmt = $this->pdo->prepare(
+                            'INSERT INTO awards (user_id, title, description) VALUES (?, ?, ?)'
+                        );
+                        $stmt->execute([
+                            $userId,
+                            $_POST['title'] ?? '',
+                            $_POST['description'] ?? ''
+                        ]);
+                        $message = 'Award added successfully.';
+                        break;
+
+                    case 'delete_award':
+                        $stmt = $this->pdo->prepare(
+                            'UPDATE awards SET deleted = 1 WHERE award_id = ? AND user_id = ?'
+                        );
+                        $stmt->execute([(int)$_POST['award_id'], $userId]);
+                        $message = 'Award deleted.';
+                        break;
+
+                    case 'update_profile':
+                        $stmt = $this->pdo->prepare(
+                            'UPDATE users SET firstname = ?, lastname = ?, about = ? WHERE user_id = ?'
+                        );
+                        $stmt->execute([
+                            $_POST['firstname'] ?? '',
+                            $_POST['lastname'] ?? '',
+                            $_POST['about'] ?? '',
+                            $userId
+                        ]);
+                        $message = 'Profile updated successfully.';
+                        break;
+                }
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+            }
+        }
+
+        // Load user
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE user_id = ? AND deleted = 0');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch() ?: null;
+
+        // Load education
+        $stmt = $this->pdo->prepare('SELECT * FROM education WHERE user_id = ? AND deleted = 0 ORDER BY graduation_date DESC');
+        $stmt->execute([$userId]);
+        $education = $stmt->fetchAll();
+
+        // Load experience
+        $stmt = $this->pdo->prepare('SELECT * FROM experience WHERE user_id = ? AND deleted = 0 ORDER BY date_created DESC');
+        $stmt->execute([$userId]);
+        $experience = $stmt->fetchAll();
+
+        // Load awards
+        $stmt = $this->pdo->prepare('SELECT * FROM awards WHERE user_id = ? AND deleted = 0 ORDER BY date_created DESC');
+        $stmt->execute([$userId]);
+        $awards = $stmt->fetchAll();
+
+        // Load job listings
+        $stmt = $this->pdo->prepare('SELECT job_id, title, company FROM job_listings WHERE deleted = 0 ORDER BY posted_date DESC');
+        $stmt->execute();
+        $jobListings = $stmt->fetchAll();
+
         return [
             'title' => 'Create CV',
             'template' => 'create-cv.html.php',
-            'vars' => []
+            'vars' => [
+                'user' => $user,
+                'education' => $education,
+                'experience' => $experience,
+                'awards' => $awards,
+                'jobListings' => $jobListings,
+                'message' => $message,
+                'error' => $error,
+            ]
         ];
     }
 
