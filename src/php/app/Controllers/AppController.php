@@ -29,6 +29,8 @@ class AppController
 
     public function create()
     {
+        login_check();
+
         return [
             'title' => 'Create CV',
             'template' => 'create-cv.html.php',

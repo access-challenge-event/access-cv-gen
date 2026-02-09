@@ -10,9 +10,7 @@ class Routes {
 
         $controllers = [
             'app' => new \App\Controllers\AppController($pdo),
-            'auth' => new \App\Controllers\AuthController(
-                $userTable,
-            ),
+            'auth' => new \App\Controllers\AuthController($userTable),
         ];
 
         if (!$pageName) {

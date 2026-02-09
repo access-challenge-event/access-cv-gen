@@ -15,9 +15,11 @@ class AuthController
             redirect('/');
         }
 
+        $error = null;
+
         if (isset($_POST['submit'])) {
             $credentials = $_POST['login'];
-            $users = $this->userTable->find('username', $credentials['username']);
+            $users = $this->userTable->find('email', $credentials['email']);
 
             if (count($users) > 0) {
                 $user = $users[0];
@@ -27,48 +29,75 @@ class AuthController
                     login($user);
                     redirect('/');
                     unset($_POST);
+                } else {
+                    $error = 'Invalid email or password.';
                 }
+            } else {
+                $error = 'Invalid email or password.';
             }
         }
 
         return [
             'title' => 'Login',
             'template' => 'login.html.php',
-            'vars' => []
+            'vars' => [
+                'error' => $error
+            ]
         ];
     }
 
     public function register() {
+        $error = null;
+
         if (isset($_POST['submit'])) {
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $username = $_POST['username'];
-            $email = $_POST['email'];
+            $username = $_POST['register']['username'];
+            $email = $_POST['register']['email'];
+            $password = $_POST['register']['password'];
 
-            $record = [
-                'user_id' => '',
-                'username' => $username,
-                'email' => $email,
-                'password' => $password,
-            ];
-
-            // save user then fetch
-            $this->userTable->save($record);
-
-            $users = $this->userTable->find('username', $username);
-
-            if (count($users) > 0) {
-                $user = $users[0];
-                login($user);
+            // Check for existing username
+            $existingUsername = $this->userTable->find('username', $username);
+            if (count($existingUsername) > 0) {
+                $error = 'Username already exists. Please choose a different username.';
             }
 
-            unset($_POST);
-            redirect('/auth/login');
+            // Check for existing email
+            $existingEmail = $this->userTable->find('email', $email);
+            if (count($existingEmail) > 0) {
+                $error = 'Email already registered. Please use a different email or sign in.';
+            }
+
+            // If no errors, create the user
+            if ($error === null) {
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+                $record = [
+                    'user_id' => '',
+                    'username' => $username,
+                    'email' => $email,
+                    'password' => $hashedPassword,
+                ];
+
+                // save user then fetch
+                $this->userTable->save($record);
+
+                $users = $this->userTable->find('username', $username);
+
+                if (count($users) > 0) {
+                    $user = $users[0];
+                    login($user);
+                }
+
+                unset($_POST);
+                redirect('/');
+            }
         }
 
         return [
             'title' => 'Register',
             'template' => 'register.html.php',
-            'vars' => []
+            'vars' => [
+                'error' => $error
+            ]
         ];
     }
 

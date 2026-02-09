@@ -1,15 +1,14 @@
-<style>
-
-</style>
-
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body text-center p-5">
-                    <h2 class="card-title mb-3">Welcome to CV Generator</h2>
-                    <p class="text-muted mb-4">Sign in with your Google account to create and manage your CVs.</p>
-                    <a href="<?php echo get_page_url('callback'); ?>" class="btn btn-dark btn-lg">
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="card-title mb-2">Sign In</h2>
+                        <p class="text-muted mb-0">Welcome back! Sign in to manage your CVs.</p>
+                    </div>
+
+                    <a href="<?php echo get_page_url('callback'); ?>" class="btn btn-dark btn-lg w-100">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48" class="me-2" style="vertical-align: text-bottom;">
                             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                             <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -19,19 +18,38 @@
                         Sign in with Google
                     </a>
 
-                    <div class="mt-3 row g-3">
-                        <form method="POST">
-                            <label for="email">Email: </label>
-                            <input type="input" id="email" name="email" />
-                            <br />
-                            
-                            <label for="password">Password: </label>
-                            <input type="password" id="password" name="password" />
-                            <br />
-                            
-                            <input type="submit" id="submit" name="submit" value="Register"/>
-                        </form>
+                    <div class="d-flex align-items-center gap-3 my-4">
+                        <hr class="flex-grow-1" />
+                        <span class="text-muted small">or</span>
+                        <hr class="flex-grow-1" />
                     </div>
+
+                    <?php if (isset($error) && $error): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?php echo htmlspecialchars($error); ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="login" class="row g-3">
+                        <div class="col-12">
+                            <label for="login-email" class="form-label">Email</label>
+                            <input type="email" id="login-email" name="login[email]" class="form-control" placeholder="you@example.com" required />
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="login-password" class="form-label">Password</label>
+                            <input type="password" id="login-password" name="login[password]" class="form-control" placeholder="••••••••" required />
+                        </div>
+                        
+                        <div class="col-12">
+                            <button type="submit" id="submit" name="submit" class="btn btn-primary w-100">Sign In</button>
+                        </div>
+                    </form>
+
+                    <p class="text-center text-muted mt-4 mb-0">
+                        Don't have an account? <a href="/auth/register">Register</a>
+                    </p>
                 </div>
             </div>
         </div>

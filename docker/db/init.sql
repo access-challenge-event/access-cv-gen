@@ -241,7 +241,9 @@ ALTER TABLE `experience`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `unique_username` (`username`),
+  ADD UNIQUE KEY `unique_email` (`email`);
 
 --
 -- Indexes for table `job_listings`
