@@ -98,11 +98,12 @@ CREATE TABLE `experience` (
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
   `username` varchar(24) NOT NULL,
-  `firstname` varchar(24) NOT NULL,
-  `lastname` varchar(24) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `age` date NOT NULL,
-  `about` varchar(512) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `firstname` varchar(24),
+  `lastname` varchar(24),
+  `age` date,
+  `about` varchar(512),
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int DEFAULT '0'

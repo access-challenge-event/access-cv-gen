@@ -40,7 +40,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <h5 class="card-title">🗄️ Database</h5>
-                        <p class="badge bg-info fs-6">Configured</p>
+                        <p class="badge <?php echo $dbConnected ? 'bg-success' : 'bg-danger'; ?> fs-6">
+                            <?php echo $dbConnected ? '✓ Connected' : '✗ Disconnected'; ?>
+                        </p>
                         <p class="text-muted small mt-2">MySQL database</p>
                     </div>
                 </div>

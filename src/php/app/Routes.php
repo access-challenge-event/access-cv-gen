@@ -3,14 +3,15 @@ namespace App;
 
 class Routes {
     public function getPage($pageName) {
-        //require __DIR__ . '/../database.php';
+        require __DIR__ . '/../database.php';
         require_once __DIR__ . '/../includes/utils.php';
-        // $userTable = new \Classes\DatabaseTable($pdo, 'user', 'id');
+
+        $userTable = new \Classes\DatabaseTable($pdo, 'users', 'user_id');
 
         $controllers = [
-            'app' => new \App\Controllers\AppController(),
+            'app' => new \App\Controllers\AppController($pdo),
             'auth' => new \App\Controllers\AuthController(
-                //$userTable,
+                $userTable,
             ),
         ];
 
