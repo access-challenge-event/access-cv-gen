@@ -2,21 +2,8 @@ FROM php:8.2-apache
 
 # Enable necessary Apache modules
 RUN a2enmod rewrite
-<<<<<<< HEAD
 # Allow .htaccess overrides for routing
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-# Allow .htaccess overrides for routing
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-=======
->>>>>>> 2374125 (feat: oauth semi working)
-=======
-# Allow .htaccess overrides for routing
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
->>>>>>> fe6f1b2 (refactor: routing, autoloading and added basic MVC architecture)
->>>>>>> f22e0eb (refactor: routing, autoloading and added basic MVC architecture)
 
 # Install system dependencies needed by Composer and PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
