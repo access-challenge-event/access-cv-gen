@@ -1,6 +1,6 @@
 <section class="registration-form">
     <div class="row align-items-center">
-        <form>
+        <form method="POST">
             <label for="firstname" method="POST">First Name</label>
             <input type="input" id="firstname" name="firstname" />
             <br />
