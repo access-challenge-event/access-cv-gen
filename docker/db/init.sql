@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 09, 2026 at 09:28 PM
--- Server version: 8.4.8
+-- Generation Time: Feb 09, 2026 at 10:26 PM
+-- Server version: 8.4.7
 -- PHP Version: 8.3.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -88,13 +88,6 @@ CREATE TABLE `education` (
   `deleted` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `education`
---
-
-INSERT INTO `education` (`education_id`, `user_id`, `title`, `school`, `length`, `graduation_date`, `date_created`, `date_updated`, `deleted`) VALUES
-(1, 1, '123', '123', 4, '3123-03-12 00:00:00', '2026-02-09 21:27:55', '2026-02-09 21:27:55', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -161,6 +154,7 @@ CREATE TABLE `users` (
   `firstname` varchar(24) DEFAULT NULL,
   `lastname` varchar(24) DEFAULT NULL,
   `age` date DEFAULT NULL,
+  `role` varchar(10) DEFAULT NULL,
   `about` varchar(512) DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -171,8 +165,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `firstname`, `lastname`, `age`, `about`, `date_created`, `date_updated`, `deleted`) VALUES
-(1, 'asd', 'joecreasy@proton.me', '$2y$10$dcXBVctubG/hU4vl2Kqube2YWdCRHEKtTRdneoJwnNgi8MhF9Kw/6', NULL, NULL, NULL, NULL, '2026-02-09 21:25:41', '2026-02-09 21:25:41', 0);
+INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `firstname`, `lastname`, `age`, `role`, `about`, `date_created`, `date_updated`, `deleted`) VALUES
+(1, 'admin', 'admin@example.com', '$2y$10$OUdm811eErUpu/IhWxiYYOlXRp6zIY.gMQYgu4DeXcRspfdDGDOG6', '', '', NULL, 'staff', NULL, '2026-02-09 20:45:26', '2026-02-09 20:45:26', 0),
+(2, 'johndoe', 'john.doe@example.com', '$2y$10$0ZSjt9nu8ANY3qZp00kJPev3qzZX2gI8UJeq4C7J9q2JMlIkszLdm', 'John', 'Doe', '2000-03-12', NULL, 'I am a white male', '2026-02-09 20:52:31', '2026-02-09 22:04:37', 0);
 
 --
 -- Indexes for dumped tables
@@ -228,34 +223,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `awards`
---
-ALTER TABLE `awards`
-  MODIFY `award_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `chats`
---
-ALTER TABLE `chats`
-  MODIFY `chat_id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `cvs`
 --
 ALTER TABLE `cvs`
   MODIFY `cv_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `education`
---
-ALTER TABLE `education`
-  MODIFY `education_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `experience`
---
-ALTER TABLE `experience`
-  MODIFY `experience_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `job_listings`
@@ -267,7 +238,7 @@ ALTER TABLE `job_listings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
