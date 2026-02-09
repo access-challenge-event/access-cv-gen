@@ -1,6 +1,7 @@
 <?php
 /**
 <<<<<<< HEAD
+<<<<<<< HEAD
  * Auth/bootstrap helpers (session, vendor autoload, shared utils)
  */
 
@@ -10,10 +11,16 @@
 
 // Start session if not already started
 >>>>>>> b97dd75 (feat: oauth semi working)
+=======
+ * Auth/bootstrap helpers (session, vendor autoload, shared utils)
+ */
+
+>>>>>>> 3bb9512 (refactor: routing, autoloading and added basic MVC architecture)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 $vendorAutoload = __DIR__ . '/../vendor/autoload.php';
 if (is_file($vendorAutoload)) {
@@ -135,3 +142,11 @@ function find_or_create_user(string $google_id, string $email, string $name, ?st
     return $user;
 }
 >>>>>>> b97dd75 (feat: oauth semi working)
+=======
+$vendorAutoload = __DIR__ . '/../vendor/autoload.php';
+if (is_file($vendorAutoload)) {
+    require_once $vendorAutoload;
+}
+
+require_once __DIR__ . '/utils.php';
+>>>>>>> 3bb9512 (refactor: routing, autoloading and added basic MVC architecture)
