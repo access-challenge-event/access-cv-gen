@@ -195,4 +195,97 @@ class AppController
             ]
         ];
     }
+
+    public function profile()
+    {
+        login_check();
+
+        $userId = $this->getUserId();
+        $message = null;
+        $error = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                $action = $_POST['action'] ?? '';
+
+                switch ($action) {
+                    case 'update_profile':
+                        $stmt = $this->pdo->prepare(
+                            'UPDATE users SET firstname = ?, lastname = ?, age = ?, about = ? WHERE user_id = ?'
+                        );
+                        $stmt->execute([
+                            $_POST['firstname'] ?? '',
+                            $_POST['lastname'] ?? '',
+                            $_POST['age'] ?: null,
+                            $_POST['about'] ?? '',
+                            $userId
+                        ]);
+
+                        // Update session username if changed
+                        if (!empty($_POST['username'])) {
+                            $existing = $this->pdo->prepare('SELECT user_id FROM users WHERE username = ? AND user_id != ?');
+                            $existing->execute([$_POST['username'], $userId]);
+                            if ($existing->rowCount() === 0) {
+                                $stmtU = $this->pdo->prepare('UPDATE users SET username = ? WHERE user_id = ?');
+                                $stmtU->execute([$_POST['username'], $userId]);
+                                $_SESSION['loggedIn']['username'] = $_POST['username'];
+                            } else {
+                                $error = 'That username is already taken.';
+                            }
+                        }
+
+                        if (!$error) {
+                            $message = 'Profile updated successfully.';
+                        }
+                        break;
+
+                    case 'change_password':
+                        $current = $_POST['current_password'] ?? '';
+                        $new = $_POST['new_password'] ?? '';
+                        $confirm = $_POST['confirm_password'] ?? '';
+
+                        if ($new !== $confirm) {
+                            $error = 'New passwords do not match.';
+                            break;
+                        }
+                        if (strlen($new) < 6) {
+                            $error = 'New password must be at least 6 characters.';
+                            break;
+                        }
+
+                        $stmt = $this->pdo->prepare('SELECT password FROM users WHERE user_id = ?');
+                        $stmt->execute([$userId]);
+                        $row = $stmt->fetch();
+
+                        if (!$row || !password_verify($current, $row['password'])) {
+                            $error = 'Current password is incorrect.';
+                            break;
+                        }
+
+                        $hashed = password_hash($new, PASSWORD_DEFAULT);
+                        $stmt = $this->pdo->prepare('UPDATE users SET password = ? WHERE user_id = ?');
+                        $stmt->execute([$hashed, $userId]);
+                        $message = 'Password changed successfully.';
+                        break;
+                }
+            } catch (\Exception $e) {
+                $error = 'Something went wrong. Please try again.';
+            }
+        }
+
+        // Load user data
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE user_id = ? AND deleted = 0');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch() ?: null;
+
+        return [
+            'title' => 'My Profile',
+            'template' => 'profile.html.php',
+            'vars' => [
+                'user' => $user,
+                'message' => $message,
+                'error' => $error,
+            ]
+        ];
+    }
 }

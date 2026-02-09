@@ -46,6 +46,8 @@
                             ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="<?php echo get_page_url('profile'); ?>">My Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="<?php echo get_page_url('logout'); ?>">Logout</a></li>
                         </ul>
                     </li>
