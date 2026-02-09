@@ -14,6 +14,10 @@ if ($page === 'home') {
     require_once 'pages/create.php';
 } elseif ($page === 'my-cvs') {
     require_once 'pages/my-cvs.php';
+} elseif ($page === 'my-account') {
+    require_once 'pages/my-account.php';
+} elseif ($page === 'upload-cv') {
+    require_once 'pages/upload-cv.php';
 }
 
 require_once 'includes/footer.php';

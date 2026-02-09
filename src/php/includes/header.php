@@ -37,6 +37,8 @@
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('home'); ?>" href="<?php echo get_page_url('home'); ?>">Home</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('create'); ?>" href="<?php echo get_page_url('create'); ?>">Create CV</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('my-cvs'); ?>" href="<?php echo get_page_url('my-cvs'); ?>">My CVs</a></li>
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('my-account'); ?>" href="<?php echo get_page_url('my-account'); ?>">My Account</a></li>
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('upload-cv'); ?>" href="<?php echo get_page_url('upload-cv'); ?>">Upload CV</a></li>
                 </ul>
             </div>
         </div>
