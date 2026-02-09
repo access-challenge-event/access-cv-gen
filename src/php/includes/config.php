@@ -10,7 +10,11 @@ $app_env = getenv('APP_ENV') ?: 'development';
 $request_path = explode('?', ltrim($_SERVER['REQUEST_URI'] ?? '', '/'))[0];
 $parts = array_values(array_filter(explode('/', $request_path), 'strlen'));
 $page = $parts[1] ?? ($parts[0] ?? 'home');
+<<<<<<< HEAD
 $allowed_pages = ['home', 'create', 'my-cvs', 'jobs', 'login', 'register', 'register', 'logout', 'callback'];
+=======
+$allowed_pages = ['home', 'create', 'my-cvs', 'jobs', 'login', 'logout', 'callback'];
+>>>>>>> cdd7f17 (feat: oauth semi working)
 
 // Default to home if invalid page
 if (!in_array($page, $allowed_pages)) {
@@ -49,4 +53,8 @@ function get_page_title($page_name) {
     ];
     return isset($titles[$page_name]) ? $titles[$page_name] : 'Home';
 }
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> cdd7f17 (feat: oauth semi working)
