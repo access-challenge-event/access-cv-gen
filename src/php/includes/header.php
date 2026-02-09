@@ -35,8 +35,23 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('home'); ?>" href="<?php echo get_page_url('home'); ?>">Home</a></li>
+                    <?php if (is_logged_in()): ?>
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('create'); ?>" href="<?php echo get_page_url('create'); ?>">Create CV</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('my-cvs'); ?>" href="<?php echo get_page_url('my-cvs'); ?>">My CVs</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <?php
+                            $user = get_current_user_data();
+                            echo htmlspecialchars($user['name']);
+                            ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="<?php echo get_page_url('logout'); ?>">Logout</a></li>
+                        </ul>
+                    </li>
+                    <?php else: ?>
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('login'); ?>" href="<?php echo get_page_url('login'); ?>">Login</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
