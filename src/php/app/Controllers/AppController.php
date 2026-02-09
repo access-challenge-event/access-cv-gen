@@ -11,7 +11,6 @@ class AppController
     ) {}
 
     public function home() {
-        // Test database connection
         $dbConnected = false;
         try {
             $stmt = $this->pdo->query('SELECT 1');
