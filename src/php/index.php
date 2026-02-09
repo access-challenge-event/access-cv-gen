@@ -5,8 +5,10 @@
  * Routes requests to appropriate page content
  */
 
-require_once 'includes/config.php';
+require_once __DIR__ . '/autoload.php';
+require_once __DIR__ . '/includes/config.php';
 
+<<<<<<< HEAD
 // Handle logout (no page render needed)
 if ($page === 'logout') {
     session_destroy();
@@ -61,3 +63,7 @@ require_once 'includes/footer.php';
 
 ?>
 >>>>>>> f5d48be (add my-account and upload-cv pages; update routing and titles)
+=======
+$entryPoint = new \App\EntryPoint(new \App\Routes());
+$entryPoint->run();
+>>>>>>> fe6f1b2 (refactor: routing, autoloading and added basic MVC architecture)
