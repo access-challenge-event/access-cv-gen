@@ -11,8 +11,4 @@
 
     # Everything else goes to index.php (app routing)
     RewriteRule ^ index.php [L]
-<<<<<<< HEAD
 </IfModule>
-=======
-</IfModule>
->>>>>>> c0e951a (changed functionality to use deepseek)
