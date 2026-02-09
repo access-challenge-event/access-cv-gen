@@ -5,7 +5,6 @@ RUN a2enmod rewrite
 # Allow .htaccess overrides for routing
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-# Install system dependencies needed by Composer and PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     libzip-dev \
