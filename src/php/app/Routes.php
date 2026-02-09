@@ -3,6 +3,7 @@ namespace App;
 
 use App\Middleware\AuthMiddleware;
 use App\Middleware\StaffMiddleware;
+use App\Exceptions\ForbiddenException;
 
 class Routes {
 
@@ -47,7 +48,16 @@ class Routes {
 
         if (isset($middlewareMap[$routeKey])) {
             foreach ($middlewareMap[$routeKey] as $middleware) {
-                $middleware->handle();
+                try {
+                    $middleware->handle();
+                } catch (ForbiddenException $e) {
+                    http_response_code(403);
+                    return [
+                        'title' => '403 Forbidden',
+                        'template' => '403.html.php',
+                        'vars' => []
+                    ];
+                }
             }
         }
 
