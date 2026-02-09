@@ -1,7 +1,22 @@
 <?php
 namespace App;
 
+use App\Middleware\AuthMiddleware;
+use App\Middleware\StaffMiddleware;
+
 class Routes {
+
+    /**
+     * Map of "controller/method" => middleware instances.
+     * Add entries here to protect routes.
+     */
+    private function getMiddleware(): array {
+        return [
+            'staff/dashboard' => [new StaffMiddleware()],
+            'app/create' => [new AuthMiddleware()],
+        ];
+    }
+
     public function getPage($pageName) {
         require __DIR__ . '/../database.php';
         require __DIR__ . '/../classes/DatabaseTable.php';
@@ -12,6 +27,7 @@ class Routes {
         $controllers = [
             'app' => new \App\Controllers\AppController($pdo),
             'auth' => new \App\Controllers\AuthController($userTable),
+            'staff' => new \App\Controllers\StaffController(),
         ];
 
         if (!$pageName) {
@@ -24,6 +40,15 @@ class Routes {
 
         if (!isset($controllers[$controllerName]) || !method_exists($controllers[$controllerName], $method)) {
             return $controllers['app']->home();
+        }
+
+        $routeKey = $controllerName . '/' . $method;
+        $middlewareMap = $this->getMiddleware();
+
+        if (isset($middlewareMap[$routeKey])) {
+            foreach ($middlewareMap[$routeKey] as $middleware) {
+                $middleware->handle();
+            }
         }
 
         $controller = $controllers[$controllerName];

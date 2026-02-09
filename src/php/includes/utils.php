@@ -11,7 +11,8 @@ function set_session_login(array $user) {
     $_SESSION['loggedIn'] = [
         'id' => $user['user_id'],
         'username' => $user['username'],
-        'email' => $user['email']
+        'email' => $user['email'],
+        'role' => $user['role'] ?? null
     ];
 }
 
@@ -34,7 +35,8 @@ function login($user) {
     $_SESSION['loggedIn'] = [
         'id' => $user['user_id'],
         'username' => $user['username'],
-        'email' => $user['email']
+        'email' => $user['email'],
+        'role' => $user['role'] ?? null
     ];
 }
 

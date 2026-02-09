@@ -120,6 +120,7 @@ CREATE TABLE `users` (
   `firstname` varchar(24),
   `lastname` varchar(24),
   `age` date,
+  `role` varchar(10),
   `about` varchar(512),
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -237,3 +238,8 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- DEFAULT STAFF USER
+INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `firstname`, `lastname`, `role`, `deleted`)
+VALUES (1, 'admin', 'admin@example.com', '$2y$10$OUdm811eErUpu/IhWxiYYOlXRp6zIY.gMQYgu4DeXcRspfdDGDOG6', '', '', 'staff', 0);
