@@ -228,30 +228,6 @@ ALTER TABLE `cvs`
   MODIFY `cv_id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `awards`
---
-ALTER TABLE `awards`
-  MODIFY `award_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `education`
---
-ALTER TABLE `education`
-  MODIFY `education_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `experience`
---
-ALTER TABLE `experience`
-  MODIFY `experience_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `chats`
---
-ALTER TABLE `chats`
-  MODIFY `chat_id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `job_listings`
 --
 ALTER TABLE `job_listings`
