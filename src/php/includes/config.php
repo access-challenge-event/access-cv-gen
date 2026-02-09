@@ -9,8 +9,10 @@ require_once __DIR__ . '/auth.php';
 // Get environment variables
 $app_env = getenv('APP_ENV') ?: 'development';
 
-// Simple routing system
-$page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'home';
+// Simple routing system (path-based)
+$request_path = explode('?', ltrim($_SERVER['REQUEST_URI'] ?? '', '/'))[0];
+$parts = array_values(array_filter(explode('/', $request_path), 'strlen'));
+$page = $parts[1] ?? ($parts[0] ?? 'home');
 $allowed_pages = ['home', 'create', 'my-cvs', 'login', 'logout', 'callback'];
 
 // Default to home if invalid page
@@ -26,7 +28,16 @@ function is_active_page($page_name) {
 
 // Helper function to get page URL
 function get_page_url($page_name) {
-    return '?page=' . $page_name;
+    $routes = [
+        'home' => '/app/home',
+        'create' => '/app/create',
+        'my-cvs' => '/app/my-cvs',
+        'login' => '/auth/login',
+        'logout' => '/auth/logout',
+        'callback' => '/auth/callback',
+    ];
+
+    return $routes[$page_name] ?? '/app/home';
 }
 
 // Get page title
