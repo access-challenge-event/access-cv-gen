@@ -27,7 +27,9 @@
         <div class="row g-4">
 
             <?php
-            //probably only four. temporary data until hooked up with database
+            
+            //Probably only eight max for clarity. Placeholder data until hooked up with database.
+            //Jobs could appear in order of the soonest to close vs the latest to close.
             $tempJobs = [
                 [
                     "role" => "Job One",
@@ -76,23 +78,46 @@
             ];
 
             foreach ($tempJobs as $job)
-            { ?>
+            {
+
+                //Total number of suggested prospective employees. Should be changed to reflect this from the backend for each role.
+                $numOfSuggestedPeople = 6;
+
+                ?>
                 <div class="col-md-6">
                     <div class="d-flex gap-3">
                         <div>
-                            <!-- CONTINUE HERE -->
-                            <h5>JOB TITLE</h5>
+                            <h5><?=$job['title']?></h5>
+
                             <p class="text-muted">
-                                Leverage Gemini API to create compelling CV content tailored to your profile.
+                                Suggested profiles: <?=$numOfSuggestedPeople?>
                             </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex gap-3">
-                        <div>
-                            <h5>Responsive Design</h5>
-                            <p class="text-muted">Beautiful, responsive layouts that look great on any device or screen size.</p>
+
+                            <!-- The below button should link to the job page of $job -->
+                            <a href="/app/staff/LINK_HERE" class="btn btn-primary">
+                                View Suggested Profiles
+                            </a>
+
+                            <p class="text-muted">
+                                At <?=$job['location']?>
+                            </p>
+                            
+                            <p class="text-muted">Skills Required:</p>
+
+                            <ul>
+                                <?php
+                                foreach ($job['skills'] as $skill)
+                                { ?>
+                                    <li>
+                                        <?=$skill?>
+                                    </li>
+                                    <?php
+                                } ?>
+                            </ul>
+
+                            <p class="text-muted">
+                                At <?=$job['description']?>
+                            </p>
                         </div>
                     </div>
                 </div>
