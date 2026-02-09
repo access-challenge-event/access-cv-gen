@@ -121,11 +121,6 @@ CREATE TABLE `users` (
   `lastname` varchar(24),
   `age` date,
   `about` varchar(512),
-  `password` varchar(255) NOT NULL,
-  `firstname` varchar(24),
-  `lastname` varchar(24),
-  `age` date,
-  `about` varchar(512),
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int DEFAULT '0'
@@ -166,23 +161,6 @@ INSERT INTO `job_listings` (`job_id`, `title`, `company`, `location`, `employmen
 (5, 'Product Manager', 'BrightPath Finance', 'Denver, CO (Hybrid)', 'Full-time', 'Senior', 'Own roadmap for a small business lending platform and drive delivery of new onboarding and underwriting features.', 'Define requirements and success metrics; coordinate cross-functional delivery; run stakeholder reviews; prioritize backlog based on impact.', '5+ years in product management; experience in fintech or regulated industries; strong communication and analytics skills; Agile experience.', '$125k - $145k', '2026-02-01', '2026-02-09 16:46:08', '2026-02-09 16:46:08', 0);
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `user_id` int NOT NULL,
-  `username` varchar(24) NOT NULL,
-  `firstname` varchar(24) NOT NULL,
-  `lastname` varchar(24) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `age` date NOT NULL,
-  `about` varchar(512) NOT NULL,
-  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `deleted` int DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Indexes for dumped tables
