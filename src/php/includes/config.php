@@ -3,12 +3,15 @@
  * Shared configuration and helper functions
  */
 
+// Load auth (starts session, loads Composer autoloader)
+require_once __DIR__ . '/auth.php';
+
 // Get environment variables
 $app_env = getenv('APP_ENV') ?: 'development';
 
 // Simple routing system
 $page = isset($_GET['page']) ? htmlspecialchars($_GET['page']) : 'home';
-$allowed_pages = ['home', 'create', 'my-cvs', 'my-account', 'upload-cv'];
+$allowed_pages = ['home', 'create', 'my-cvs', 'login', 'logout', 'callback'];
 
 // Default to home if invalid page
 if (!in_array($page, $allowed_pages)) {
@@ -32,8 +35,7 @@ function get_page_title($page_name) {
         'home' => 'Home',
         'create' => 'Create CV',
         'my-cvs' => 'My CVs',
-        'my-account' => 'My Account',
-        'upload-cv' => 'Upload CV'
+        'login' => 'Login',
     ];
     return isset($titles[$page_name]) ? $titles[$page_name] : 'Home';
 }
