@@ -108,6 +108,106 @@ CREATE TABLE `users` (
   `deleted` int DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_listings`
+--
+
+CREATE TABLE `job_listings` (
+  `job_id` int NOT NULL AUTO_INCREMENT UNIQUE PRIMARY KEY,
+  `title` varchar(80) NOT NULL,
+  `company` varchar(80) NOT NULL,
+  `location` varchar(80) NOT NULL,
+  `employment_type` varchar(30) NOT NULL,
+  `level` varchar(30) NOT NULL,
+  `description` text NOT NULL,
+  `responsibilities` text NOT NULL,
+  `requirements` text NOT NULL,
+  `salary_range` varchar(40) DEFAULT NULL,
+  `posted_date` date NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Seed data for table `job_listings`
+--
+
+INSERT INTO `job_listings` (
+  `title`,
+  `company`,
+  `location`,
+  `employment_type`,
+  `level`,
+  `description`,
+  `responsibilities`,
+  `requirements`,
+  `salary_range`,
+  `posted_date`
+) VALUES
+(
+  'Software Engineer',
+  'Northbridge Labs',
+  'Seattle, WA (Hybrid)',
+  'Full-time',
+  'Mid-level',
+  'Build and maintain customer-facing web services used by small businesses to manage bookings and payments.',
+  'Deliver features in a PHP and JavaScript stack; write unit tests; collaborate with product and design; monitor and improve performance.',
+  '3+ years of web development; solid PHP and MySQL; experience with REST APIs; familiarity with Docker and CI; strong problem-solving skills.',
+  '$95k - $120k',
+  '2026-02-02'
+),
+(
+  'Data Analyst',
+  'Cedar Analytics',
+  'Austin, TX (On-site)',
+  'Full-time',
+  'Junior',
+  'Support reporting and insights for marketing and operations teams with clean dashboards and ad hoc analysis.',
+  'Build SQL queries and dashboards; validate data quality; document metrics; present findings to stakeholders.',
+  '1-2 years in analytics or internship experience; SQL proficiency; Excel or Google Sheets; basic statistics; BI tools like Tableau or Power BI.',
+  '$55k - $70k',
+  '2026-02-04'
+),
+(
+  'UX Designer',
+  'Harbor Health',
+  'Remote (US)',
+  'Full-time',
+  'Mid-level',
+  'Design accessible patient-facing experiences for scheduling, telehealth, and intake flows.',
+  'Lead discovery workshops; create user flows and prototypes; run usability tests; partner with engineers for handoff.',
+  '3+ years of UX design; portfolio with web and mobile work; experience with Figma; knowledge of accessibility standards (WCAG).',
+  '$85k - $105k',
+  '2026-02-03'
+),
+(
+  'IT Support Specialist',
+  'Summit Logistics',
+  'Chicago, IL (On-site)',
+  'Full-time',
+  'Entry-level',
+  'Provide frontline support for laptops, printers, and warehouse systems across multiple sites.',
+  'Resolve tickets; image and deploy devices; document fixes; support user onboarding and offboarding.',
+  'CompTIA A+ or equivalent; basic Windows and macOS support; customer service experience; ability to lift 30 lbs.',
+  '$42k - $52k',
+  '2026-01-29'
+),
+(
+  'Product Manager',
+  'BrightPath Finance',
+  'Denver, CO (Hybrid)',
+  'Full-time',
+  'Senior',
+  'Own roadmap for a small business lending platform and drive delivery of new onboarding and underwriting features.',
+  'Define requirements and success metrics; coordinate cross-functional delivery; run stakeholder reviews; prioritize backlog based on impact.',
+  '5+ years in product management; experience in fintech or regulated industries; strong communication and analytics skills; Agile experience.',
+  '$125k - $145k',
+  '2026-02-01'
+);
+
 --
 -- Indexes for dumped tables
 --
@@ -143,6 +243,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
+-- Indexes for table `job_listings`
+--
+ALTER TABLE `job_listings`
+  ADD PRIMARY KEY (`job_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -175,6 +281,12 @@ ALTER TABLE `experience`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `job_listings`
+--
+ALTER TABLE `job_listings`
+  MODIFY `job_id` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
