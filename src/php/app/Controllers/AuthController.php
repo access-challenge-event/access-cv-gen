@@ -16,6 +16,9 @@ class AuthController
 
     public function login() {
         if (isset($_SESSION['loggedIn'])) {
+            if (($_SESSION['loggedIn']['role'] ?? null) === 'staff') {
+                redirect('/staff/dashboard');
+            }
             redirect('/');
         }
 
@@ -31,6 +34,11 @@ class AuthController
                 if (password_verify($credentials['password'], $user['password'])) {
                     // login user
                     login($user);
+
+                    if (($user['role'] ?? null) === 'staff') {
+                        redirect('/staff/dashboard');
+                    }
+
                     redirect('/');
                     unset($_POST);
                 } else {
