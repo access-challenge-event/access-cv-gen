@@ -109,6 +109,31 @@ CREATE TABLE `experience` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int NOT NULL,
+  `username` varchar(24) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `firstname` varchar(24),
+  `lastname` varchar(24),
+  `age` date,
+  `about` varchar(512),
+  `password` varchar(255) NOT NULL,
+  `firstname` varchar(24),
+  `lastname` varchar(24),
+  `age` date,
+  `about` varchar(512),
+  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted` int DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `job_listings`
 --
 
@@ -192,6 +217,14 @@ ALTER TABLE `education`
 --
 ALTER TABLE `experience`
   ADD PRIMARY KEY (`experience_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `unique_username` (`username`),
+  ADD UNIQUE KEY `unique_email` (`email`);
 
 --
 -- Indexes for table `job_listings`

@@ -9,9 +9,9 @@ function set_session_login(array $user) {
     if (!$user) { return; }
 
     $_SESSION['loggedIn'] = [
-        'id' => $user['id'],
+        'id' => $user['user_id'],
         'username' => $user['username'],
-        'role' => $user['role']
+        'email' => $user['email']
     ];
 }
 
@@ -26,11 +26,15 @@ function login_check() {
     }
 }
 
+function is_logged_in() {
+    return isset($_SESSION['loggedIn']);
+}
+
 function login($user) {
     $_SESSION['loggedIn'] = [
-        'id' => $user['id'],
+        'id' => $user['user_id'],
         'username' => $user['username'],
-        'role' => $user['role']
+        'email' => $user['email']
     ];
 }
 
