@@ -32,14 +32,14 @@ class DatabaseTable {
 
     // save function
     public function save($record) {
-        if ($record[$this->primaryKey] === '') {
-            unset($record[$this->primaryKey]);
-        }
+        $primaryKeyValue = $record[$this->primaryKey] ?? null;
 
-        try {
+        if ($primaryKeyValue === '' || $primaryKeyValue === null) {
+            // New record - insert
+            unset($record[$this->primaryKey]);
             $this->insert($record);
-        }
-        catch (\Exception) {
+        } else {
+            // Existing record - update
             $this->update($record, $this->primaryKey);
         }
     }

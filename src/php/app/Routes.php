@@ -4,6 +4,7 @@ namespace App;
 class Routes {
     public function getPage($pageName) {
         require __DIR__ . '/../database.php';
+        require __DIR__ . '/../classes/DatabaseTable.php';
         require_once __DIR__ . '/../includes/utils.php';
 
         $userTable = new \Classes\DatabaseTable($pdo, 'users', 'user_id');

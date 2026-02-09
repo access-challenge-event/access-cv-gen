@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use function login_check;
+
 class AppController
 {
     public function __construct(

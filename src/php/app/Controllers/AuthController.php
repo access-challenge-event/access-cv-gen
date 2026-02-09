@@ -4,7 +4,10 @@ namespace App\Controllers;
 
 use Classes\DatabaseTable;
 
-// REMOVE THIS COMMENT AFTER, ITS LITERALLY HERE JUST SO I CAN PUSH A CHANGE
+use function login;
+use function redirect;
+use function is_logged_in;
+
 class AuthController
 {
     public function __construct(
