@@ -11,20 +11,11 @@ class AppController extends Controller
     ) {}
 
     public function home() {
-        $dbConnected = false;
-        try {
-            $stmt = $this->pdo->query('SELECT 1');
-            $dbConnected = $stmt !== false;
-        } catch (\Exception $e) {
-            $dbConnected = false;
-        }
 
         return [
             'title' => 'Home',
             'template' => 'home.html.php',
-            'vars' => [
-                'dbConnected' => $dbConnected
-            ]
+            'vars' => []
         ];
     }
 
