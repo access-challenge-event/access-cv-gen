@@ -332,7 +332,7 @@
                             <?php endif; ?>
 
                             <div class="row g-3">
-                                <div class="col-md-8">
+                                <div class="col-md-5">
                                     <label for="job_target" class="form-label">Target Job (Optional)</label>
                                     <select class="form-select" id="job_target" name="job_id">
                                         <option value="" data-title="">-- Select a job to tailor your CV --</option>
@@ -343,6 +343,14 @@
                                                 </option>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="ai_model" class="form-label">AI Model</label>
+                                    <select class="form-select" id="ai_model" name="ai_model">
+                                        <option value="deepseek" selected>DeepSeek</option>
+                                        <option value="gemini" disabled>Gemini (Coming Soon)</option>
+                                        <option value="gpt" disabled>GPT (Coming Soon)</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-end">
