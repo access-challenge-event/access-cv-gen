@@ -6,7 +6,9 @@
                 <h1 class="mb-1">Job Listings</h1>
                 <p class="text-muted mb-0">Sample listings pulled from the database.</p>
             </div>
+            <?php if (!is_staff()): ?>
             <a class="btn btn-outline-primary" href="<?php echo get_page_url('create'); ?>">Create CV</a>
+            <?php endif; ?>
         </div>
 
         <?php if (!empty($error)): ?>
