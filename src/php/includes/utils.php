@@ -31,6 +31,10 @@ function is_logged_in() {
     return isset($_SESSION['loggedIn']);
 }
 
+function is_staff() {
+    return is_logged_in() && isset($_SESSION['loggedIn']['role']) && $_SESSION['loggedIn']['role'] === 'staff';
+}
+
 function login($user) {
     $_SESSION['loggedIn'] = [
         'id' => $user['user_id'],

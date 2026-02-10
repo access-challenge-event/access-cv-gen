@@ -3,7 +3,7 @@
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-4 mt-5">
         <div class="container">
-            <p class="mb-2">&copy; 2026 CV Generator. All rights reserved.</p>
+            <p class="mb-2">&copy; <?=date('Y')?> CV Generator. All rights reserved.</p>
             <p class="text-muted small">
                 Environment: <?php echo ucfirst($app_env); ?> | Current Page: <?php echo ucfirst($page); ?>
             </p>

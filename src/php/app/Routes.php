@@ -3,6 +3,7 @@ namespace App;
 
 use App\Middleware\AuthMiddleware;
 use App\Middleware\StaffMiddleware;
+use App\Middleware\NotStaffMiddleware;
 use App\Exceptions\ForbiddenException;
 
 class Routes {
@@ -14,9 +15,9 @@ class Routes {
     private function getMiddleware(): array {
         return [
             'staff/dashboard' => [new StaffMiddleware()],
-            'app/create' => [new AuthMiddleware()],
-            'app/viewCv' => [new AuthMiddleware()],
-            'app/myCvs' => [new AuthMiddleware()],
+            'app/create' => [new AuthMiddleware(), new NotStaffMiddleware()],
+            'app/viewCv' => [new AuthMiddleware(), new NotStaffMiddleware()],
+            'app/myCvs' => [new AuthMiddleware(), new NotStaffMiddleware()],
             'app/profile' => [new AuthMiddleware()],
         ];
     }
