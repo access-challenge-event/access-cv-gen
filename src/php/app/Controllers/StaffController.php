@@ -163,4 +163,74 @@ class StaffController extends Controller
             ]
         ];
     }
+
+    public function recommended()
+    {
+        $userId = $this->getUserId();
+        $user = $this->userTable->find('user_id', $userId)[0] ?? null;
+        $userCompany = $user['company'] ?? '';
+
+        $applicants = [];
+        $companyJobs = [];
+
+        try {
+            // Get jobs belonging to the staff user's company
+            if ($userCompany) {
+                $stmt = $this->pdo->prepare(
+                    'SELECT job_id, title FROM job_listings WHERE company = ? AND deleted = 0'
+                );
+                $stmt->execute([$userCompany]);
+                $companyJobs = $stmt->fetchAll();
+            }
+
+            $jobIds = array_column($companyJobs, 'job_id');
+            $jobTitles = array_column($companyJobs, 'title', 'job_id');
+
+            if (!empty($jobIds)) {
+                // Fetch CVs targeting these jobs, joined with user info
+                $placeholders = implode(',', array_fill(0, count($jobIds), '?'));
+                $stmt = $this->pdo->prepare(
+                    "SELECT c.cv_id, c.user_id, c.job_id, c.content_json, c.score, c.job_target, c.date_created,
+                            u.username, u.email, u.firstname, u.lastname
+                     FROM cvs c
+                     JOIN users u ON c.user_id = u.user_id
+                     WHERE c.job_id IN ($placeholders)
+                       AND c.deleted = 0
+                       AND u.deleted = 0
+                       AND (u.role IS NULL OR u.role != 'staff')
+                     ORDER BY c.score DESC, c.date_created DESC"
+                );
+                $stmt->execute($jobIds);
+                $rows = $stmt->fetchAll();
+
+                foreach ($rows as $row) {
+                    $cvData = json_decode($row['content_json'], true);
+                    $applicants[] = [
+                        'cv_id' => $row['cv_id'],
+                        'user_id' => $row['user_id'],
+                        'username' => $row['username'],
+                        'email' => $row['email'],
+                        'name' => trim(($row['firstname'] ?? '') . ' ' . ($row['lastname'] ?? '')) ?: $row['username'],
+                        'score' => $row['score'],
+                        'job_target' => $row['job_target'] ?? ($jobTitles[$row['job_id']] ?? 'Unknown'),
+                        'job_title' => $jobTitles[$row['job_id']] ?? 'Unknown',
+                        'cv_html' => $cvData['content'] ?? '',
+                        'date_created' => $row['date_created'],
+                    ];
+                }
+            }
+        } catch (\Exception $e) {
+            // Silently fail — page shows empty state
+        }
+
+        return [
+            'title' => 'Recommended Applicants',
+            'template' => 'staff-reccomended-applicants.html.php',
+            'vars' => [
+                'user' => $user,
+                'applicants' => $applicants,
+                'companyJobs' => $companyJobs,
+            ]
+        ];
+    }
 }
