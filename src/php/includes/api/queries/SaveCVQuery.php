@@ -68,7 +68,11 @@ class SaveCVQuery extends BaseQuery
     {
         $this->validate($data);
 
+        // Sanitize user-supplied fields but preserve HTML in cv_content (AI-generated output)
+        $cvContent = $data['cv_content'];
+        unset($data['cv_content']);
         $clean = $this->sanitizer->cleanArray($data, $this->fieldLimits());
+        $clean['cv_content'] = mb_substr($cvContent, 0, 50000);
 
         $score = null;
         $usage = null;

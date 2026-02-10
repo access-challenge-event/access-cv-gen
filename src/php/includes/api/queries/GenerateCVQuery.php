@@ -145,4 +145,19 @@ class GenerateCVQuery extends BaseQuery
         }
         return implode("\n", $lines);
     }
+
+    protected function parseResponse(array $raw, array $cleanData): array
+    {
+        $text = $raw['text'];
+
+        // Strip markdown code fences that LLMs commonly wrap HTML in
+        $text = preg_replace('/^```(?:html)?\s*\n?/i', '', $text);
+        $text = preg_replace('/\n?```\s*$/', '', $text);
+        $text = trim($text);
+
+        return [
+            'content' => $text,
+            'usage'   => $raw['usage'],
+        ];
+    }
 }
