@@ -11,66 +11,110 @@ class StaffController extends Controller
         public DatabaseTable $userTable,
     ) {}
 
+    private function formatSalaryRange(string $min, string $max): ?string
+    {
+        $min = (int) $min;
+        $max = (int) $max;
+        if ($min <= 0 && $max <= 0) return null;
+        if ($min > 0 && $max > 0) return '£' . number_format($min) . ' - £' . number_format($max);
+        if ($min > 0) return '£' . number_format($min);
+        return '£' . number_format($max);
+    }
+
     public function dashboard()
     {
         $userId = $this->getUserId();
         $user = $this->userTable->find('user_id', $userId)[0] ?? null;
+        $message = null;
+        $error = null;
+
+        // Handle POST actions
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $action = $_POST['action'] ?? '';
+            try {
+                switch ($action) {
+                    case 'add_job':
+                        $stmt = $this->pdo->prepare(
+                            'INSERT INTO job_listings (title, company, location, employment_type, level, description, responsibilities, requirements, salary_range, posted_date)
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURDATE())'
+                        );
+                        $stmt->execute([
+                            $_POST['title'] ?? '',
+                            $_POST['company'] ?? '',
+                            $_POST['location'] ?? '',
+                            $_POST['employment_type'] ?? 'Full-time',
+                            $_POST['level'] ?? 'Entry-level',
+                            $_POST['description'] ?? '',
+                            $_POST['responsibilities'] ?? '',
+                            $_POST['requirements'] ?? '',
+                            $this->formatSalaryRange($_POST['salary_min'] ?? '', $_POST['salary_max'] ?? ''),
+                        ]);
+                        $message = 'Job listing added successfully.';
+                        break;
+
+                    case 'delete_job':
+                        $jobId = (int)($_POST['job_id'] ?? 0);
+                        $stmt = $this->pdo->prepare('UPDATE job_listings SET deleted = 1 WHERE job_id = ?');
+                        $stmt->execute([$jobId]);
+                        $message = 'Job listing deleted.';
+                        break;
+
+                    case 'edit_job':
+                        $jobId = (int)($_POST['job_id'] ?? 0);
+                        $stmt = $this->pdo->prepare(
+                            'UPDATE job_listings SET title = ?, company = ?, location = ?, employment_type = ?, level = ?, description = ?, responsibilities = ?, requirements = ?, salary_range = ? WHERE job_id = ? AND deleted = 0'
+                        );
+                        $stmt->execute([
+                            $_POST['title'] ?? '',
+                            $_POST['company'] ?? '',
+                            $_POST['location'] ?? '',
+                            $_POST['employment_type'] ?? 'Full-time',
+                            $_POST['level'] ?? 'Entry-level',
+                            $_POST['description'] ?? '',
+                            $_POST['responsibilities'] ?? '',
+                            $_POST['requirements'] ?? '',
+                            $this->formatSalaryRange($_POST['salary_min'] ?? '', $_POST['salary_max'] ?? ''),
+                            $jobId,
+                        ]);
+                        $message = 'Job listing updated successfully.';
+                        break;
+                }
+            } catch (\Exception $e) {
+                $error = 'Something went wrong: ' . $e->getMessage();
+            }
+        }
+
+        // Load real jobs from DB
+        $myJobs = [];
+        $allJobs = [];
+        $userCompany = $user['company'] ?? '';
+        try {
+            $stmt = $this->pdo->prepare(
+                'SELECT * FROM job_listings WHERE deleted = 0 ORDER BY posted_date DESC'
+            );
+            $stmt->execute();
+            $jobs = $stmt->fetchAll();
+
+            foreach ($jobs as $job) {
+                if ($userCompany && strcasecmp($job['company'], $userCompany) === 0) {
+                    $myJobs[] = $job;
+                } else {
+                    $allJobs[] = $job;
+                }
+            }
+        } catch (\Exception $e) {
+            $error = $error ?? 'Unable to load job listings.';
+        }
 
         return [
             'title' => 'Dashboard',
             'template' => 'staff-dashboard.html.php',
             'vars' => [
                 'user' => $user,
-                'tempJobs' => [
-                    [
-                        "title" => "Job Title 1",
-                        "role" => "Job One",
-                        "location" => "Northampton",
-                        "skills" => [
-                            "Skill 1",
-                            "Skill 2",
-                            "Skill 3",
-                            "Skill 4"
-                        ],
-                        "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                    ],
-                    [
-                        "title" => "Job Title 2",
-                        "role" => "Job Two",
-                        "location" => "Northampton",
-                        "skills" => [
-                            "Skill 1",
-                            "Skill 2",
-                            "Skill 3",
-                            "Skill 4"
-                        ],
-                        "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                    ],
-                    [
-                        "title" => "Job Title 3",
-                        "role" => "Job Three",
-                        "location" => "Northampton",
-                        "skills" => [
-                            "Skill 1",
-                            "Skill 2",
-                            "Skill 3",
-                            "Skill 4"
-                        ],
-                        "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                    ],
-                    [
-                        "title" => "Job Title 3",
-                        "role" => "Job Four",
-                        "location" => "Northampton",
-                        "skills" => [
-                            "Skill 1",
-                            "Skill 2",
-                            "Skill 3",
-                            "Skill 4"
-                        ],
-                        "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                    ]
-                ]
+                'myJobs' => $myJobs,
+                'allJobs' => $allJobs,
+                'message' => $message,
+                'error' => $error,
             ]
         ];
     }
