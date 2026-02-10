@@ -108,10 +108,8 @@ $queryMap = [
     'save_cv'                     => 'SaveCVQuery',
 ];
 
-// Actions that require authentication
-$authRequired = ['save_cv'];
-
-if (in_array($action, $authRequired) && !$currentUserId) {
+// All API actions require authentication
+if (!$currentUserId) {
     http_response_code(401);
     echo json_encode(['error' => 'Authentication required']);
     exit;

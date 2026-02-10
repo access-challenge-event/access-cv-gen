@@ -156,6 +156,8 @@ class AppController extends Controller
 
     public function jobs()
     {
+        login_check();
+
         $jobListings = [];
         $error = null;
 
