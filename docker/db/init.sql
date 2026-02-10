@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 09, 2026 at 10:26 PM
--- Server version: 8.4.7
+-- Generation Time: Feb 10, 2026 at 10:24 AM
+-- Server version: 8.4.8
 -- PHP Version: 8.3.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -62,7 +62,7 @@ CREATE TABLE `chats` (
 CREATE TABLE `cvs` (
   `cv_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `job_id` int DEFAULT 0,
+  `job_id` int DEFAULT '0',
   `content_json` mediumblob NOT NULL,
   `score` int DEFAULT NULL,
   `job_target` varchar(300) DEFAULT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE `users` (
   `lastname` varchar(24) DEFAULT NULL,
   `age` date DEFAULT NULL,
   `role` varchar(10) DEFAULT NULL,
-  `about` TEXT DEFAULT NULL,
+  `about` text,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int DEFAULT '0'
@@ -169,7 +169,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `firstname`, `lastname`, `age`, `role`, `about`, `date_created`, `date_updated`, `deleted`) VALUES
 (1, 'admin', 'admin@example.com', '$2y$10$OUdm811eErUpu/IhWxiYYOlXRp6zIY.gMQYgu4DeXcRspfdDGDOG6', '', '', NULL, 'staff', NULL, '2026-02-09 20:45:26', '2026-02-09 20:45:26', 0),
-(2, 'johndoe', 'john.doe@example.com', '$2y$10$0ZSjt9nu8ANY3qZp00kJPev3qzZX2gI8UJeq4C7J9q2JMlIkszLdm', 'John', 'Doe', '2000-03-12', NULL, 'I am a white male', '2026-02-09 20:52:31', '2026-02-09 22:04:37', 0);
+(2, 'johndoe', 'john.doe@example.com', '$2y$10$6PVaQnWzTbkw0JH08pxR.eYAU5yMG0YTEqE1y4o/VCx19MNy.nQPi', 'John', 'Doe', '2000-03-12', NULL, 'I am a white male', '2026-02-09 20:52:31', '2026-02-10 10:24:24', 0);
 
 --
 -- Indexes for dumped tables
@@ -225,25 +225,6 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `cvs`
---
-ALTER TABLE `cvs`
-  MODIFY `cv_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `job_listings`
---
-ALTER TABLE `job_listings`
-  MODIFY `job_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
-
---
 -- AUTO_INCREMENT for table `awards`
 --
 ALTER TABLE `awards`
@@ -255,6 +236,11 @@ ALTER TABLE `awards`
 ALTER TABLE `chats`
   MODIFY `chat_id` int NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `cvs`
+--
+ALTER TABLE `cvs`
+  MODIFY `cv_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `education`
@@ -268,6 +254,18 @@ ALTER TABLE `education`
 ALTER TABLE `experience`
   MODIFY `experience_id` int NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `job_listings`
+--
+ALTER TABLE `job_listings`
+  MODIFY `job_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
