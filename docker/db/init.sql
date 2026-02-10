@@ -140,7 +140,15 @@ INSERT INTO `job_listings` (`job_id`, `title`, `company`, `location`, `employmen
 (2, 'Data Analyst', 'Cedar Analytics', 'Austin, TX (On-site)', 'Full-time', 'Junior', 'Support reporting and insights for marketing and operations teams with clean dashboards and ad hoc analysis.', 'Build SQL queries and dashboards; validate data quality; document metrics; present findings to stakeholders.', '1-2 years in analytics or internship experience; SQL proficiency; Excel or Google Sheets; basic statistics; BI tools like Tableau or Power BI.', '$55k - $70k', '2026-02-04', '2026-02-09 16:46:08', '2026-02-09 16:46:08', 0),
 (3, 'UX Designer', 'Harbor Health', 'Remote (US)', 'Full-time', 'Mid-level', 'Design accessible patient-facing experiences for scheduling, telehealth, and intake flows.', 'Lead discovery workshops; create user flows and prototypes; run usability tests; partner with engineers for handoff.', '3+ years of UX design; portfolio with web and mobile work; experience with Figma; knowledge of accessibility standards (WCAG).', '$85k - $105k', '2026-02-03', '2026-02-09 16:46:08', '2026-02-09 16:46:08', 0),
 (4, 'IT Support Specialist', 'Summit Logistics', 'Chicago, IL (On-site)', 'Full-time', 'Entry-level', 'Provide frontline support for laptops, printers, and warehouse systems across multiple sites.', 'Resolve tickets; image and deploy devices; document fixes; support user onboarding and offboarding.', 'CompTIA A+ or equivalent; basic Windows and macOS support; customer service experience; ability to lift 30 lbs.', '$42k - $52k', '2026-01-29', '2026-02-09 16:46:08', '2026-02-09 16:46:08', 0),
-(5, 'Product Manager', 'BrightPath Finance', 'Denver, CO (Hybrid)', 'Full-time', 'Senior', 'Own roadmap for a small business lending platform and drive delivery of new onboarding and underwriting features.', 'Define requirements and success metrics; coordinate cross-functional delivery; run stakeholder reviews; prioritize backlog based on impact.', '5+ years in product management; experience in fintech or regulated industries; strong communication and analytics skills; Agile experience.', '$125k - $145k', '2026-02-01', '2026-02-09 16:46:08', '2026-02-09 16:46:08', 0);
+(5, 'Product Manager', 'BrightPath Finance', 'Denver, CO (Hybrid)', 'Full-time', 'Senior', 'Own roadmap for a small business lending platform and drive delivery of new onboarding and underwriting features.', 'Define requirements and success metrics; coordinate cross-functional delivery; run stakeholder reviews; prioritize backlog based on impact.', '5+ years in product management; experience in fintech or regulated industries; strong communication and analytics skills; Agile experience.', '$125k - $145k', '2026-02-01', '2026-02-09 16:46:08', '2026-02-09 16:46:08', 0),
+(6, 'Junior Software Developer', 'Access Group', 'London, UK (Hybrid)', 'Full-time', 'Junior', 'Join our engineering team to build and maintain internal tools and client-facing web applications.', 'Write clean PHP and JavaScript code; fix bugs; participate in code reviews; assist with deployments.', '1+ year of web development experience; PHP and MySQL knowledge; familiarity with Git; willingness to learn.', '£28,000 - £35,000', '2026-02-10', '2026-02-10 12:36:00', '2026-02-10 12:36:00', 0);
+
+--
+-- Dumping data for table `cvs`
+--
+
+INSERT INTO `cvs` (`cv_id`, `user_id`, `job_id`, `content_json`, `score`, `job_target`, `date_created`, `date_updated`, `deleted`) VALUES
+(1, 2, 6, '{"content":"<h2>John Doe</h2><p class=\\\"text-muted\\\">john.doe@example.com \\u00b7 London, UK</p><h3>Professional Summary</h3><p>Motivated junior developer with a strong foundation in web technologies and a passion for building clean, maintainable applications. Eager to contribute to a collaborative team environment and grow as a software engineer.</p><h3>Work Experience</h3><ul><li><strong>Web Developer Intern</strong> \\u2013 Digital Solutions Ltd, London (Jun 2025 \\u2013 Dec 2025)<p>Built responsive front-end components using Bootstrap and vanilla JavaScript. Assisted senior developers with PHP backend tasks and database queries.</p></li><li><strong>Freelance Web Developer</strong> (Jan 2025 \\u2013 May 2025)<p>Designed and developed small business websites using HTML, CSS, and PHP. Managed client requirements and delivered projects on time.</p></li></ul><h3>Education</h3><ul><li><strong>BSc Computer Science</strong> \\u2013 University of Westminster (2024)</li></ul><h3>Skills</h3><ul><li>PHP, MySQL, JavaScript, HTML/CSS</li><li>Bootstrap, Git, REST APIs</li><li>Problem solving, teamwork, communication</li></ul>","job_target":"Junior Software Developer","score":74}', 74, 'Junior Software Developer', '2026-02-10 12:36:00', '2026-02-10 12:36:00', 0);
 
 -- --------------------------------------------------------
 
@@ -241,7 +249,7 @@ ALTER TABLE `chats`
 -- AUTO_INCREMENT for table `cvs`
 --
 ALTER TABLE `cvs`
-  MODIFY `cv_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `cv_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `education`
@@ -259,7 +267,7 @@ ALTER TABLE `experience`
 -- AUTO_INCREMENT for table `job_listings`
 --
 ALTER TABLE `job_listings`
-  MODIFY `job_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `job_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

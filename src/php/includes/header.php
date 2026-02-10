@@ -38,6 +38,7 @@
                     <?php if (is_logged_in() && is_staff()): ?>
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('dashboard'); ?>" href="<?php echo get_page_url('staff-dashboard'); ?>">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link <?php echo is_active_page('jobs'); ?>" href="<?php echo get_page_url('jobs'); ?>">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link <?php echo is_active_page('recommended'); ?>" href="<?php echo get_page_url('staff-reccomended-applicants'); ?>">Applicants</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <?php

@@ -19,6 +19,7 @@ class Routes {
             'app/create' => [new AuthMiddleware(), new NotStaffMiddleware()],
             'app/viewCv' => [new AuthMiddleware(), new NotStaffMiddleware()],
             'app/myCvs' => [new AuthMiddleware(), new NotStaffMiddleware()],
+            'staff/recommended' => [new StaffMiddleware()],
             'app/profile' => [new AuthMiddleware()],
         ];
     }
