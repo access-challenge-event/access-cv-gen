@@ -1,22 +1,8 @@
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <h1 class="display-4 fw-bold mb-3">Dashboard</h1>
-                <p class="lead mb-4">
-                    Generate beautiful, AI-enhanced CVs with the power of Gemini. 
-                    Highlight your skills, experience, and education effortlessly.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Status Section -->
 <section class="py-5 bg-light">
     <div class="container">
-        <h2 class="mb-4 text-center">Dashboard</h2>
+        <h2 class="mb-4 text-center">CV Generator</h2>
+        <p class="mb-4 text-center">Welcome back, NAME</P>
     </div>
 </section>
 
@@ -41,7 +27,7 @@
                 <div class="col-md-6">
                     <div class="d-flex gap-3">
                         <div>
-                            <h5><?=$job['title']?></h5>
+                            <h5 class=" text-center"><?=$job['title']?></h5>
 
                             <p class="text-muted">
                                 Suggested profiles: <?=$numOfSuggestedPeople?>
