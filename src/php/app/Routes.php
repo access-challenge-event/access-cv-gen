@@ -15,6 +15,7 @@ class Routes {
     private function getMiddleware(): array {
         return [
             'staff/dashboard' => [new StaffMiddleware()],
+            'staff/status' => [new StaffMiddleware()],
             'app/create' => [new AuthMiddleware(), new NotStaffMiddleware()],
             'app/viewCv' => [new AuthMiddleware(), new NotStaffMiddleware()],
             'app/myCvs' => [new AuthMiddleware(), new NotStaffMiddleware()],
