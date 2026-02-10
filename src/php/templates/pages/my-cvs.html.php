@@ -11,6 +11,13 @@
                     <a href="<?php echo get_page_url('create'); ?>" class="btn btn-primary">Create New CV</a>
                 </div>
 
+                <?php if (!empty($message)): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?php echo htmlspecialchars($message); ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
                 <?php if (!empty($error)): ?>
                     <div class="alert alert-warning" role="alert">
                         <?php echo htmlspecialchars($error); ?>
@@ -74,10 +81,14 @@
                                             CV #<?php echo $cv['cv_id']; ?>
                                         </p>
                                     </div>
-                                    <div class="card-footer bg-transparent border-top-0">
-                                        <a href="/app/viewCv?id=<?php echo $cv['cv_id']; ?>" class="btn btn-outline-primary btn-sm w-100">
+                                    <div class="card-footer bg-transparent border-top-0 d-flex gap-2">
+                                        <a href="/app/viewCv?id=<?php echo $cv['cv_id']; ?>" class="btn btn-outline-primary btn-sm flex-grow-1">
                                             View CV
                                         </a>
+                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                onclick="showDeleteModal('<?php echo $cv['cv_id']; ?>', '<?php echo htmlspecialchars($cv['job_target'] ?: 'General CV'); ?>')">
+                                            Delete
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -126,3 +137,34 @@
         </div>
     </div>
 </section>
+
+<!-- Delete CV Modal -->
+<div class="modal fade" id="deleteCvModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete CV</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteCvName"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/app/myCvs" class="d-inline">
+                    <input type="hidden" name="action" value="delete_cv">
+                    <input type="hidden" name="cv_id" id="deleteCvId">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showDeleteModal(cvId, cvName) {
+    document.getElementById('deleteCvId').value = cvId;
+    document.getElementById('deleteCvName').textContent = cvName;
+    new bootstrap.Modal(document.getElementById('deleteCvModal')).show();
+}
+</script>

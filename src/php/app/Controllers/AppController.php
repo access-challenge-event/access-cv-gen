@@ -331,6 +331,24 @@ class AppController
         $userId = $this->getUserId();
         $cvs = [];
         $error = null;
+        $message = null;
+
+        // Handle CV deletion
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $action = $_POST['action'] ?? '';
+            if ($action === 'delete_cv') {
+                try {
+                    $cvId = (int)($_POST['cv_id'] ?? 0);
+                    $stmt = $this->pdo->prepare(
+                        'UPDATE cvs SET deleted = 1 WHERE cv_id = ? AND user_id = ?'
+                    );
+                    $stmt->execute([$cvId, $userId]);
+                    $message = 'CV deleted successfully.';
+                } catch (\Exception $e) {
+                    $error = 'Failed to delete CV.';
+                }
+            }
+        }
 
         try {
             $stmt = $this->pdo->prepare(
@@ -351,6 +369,7 @@ class AppController
             'vars' => [
                 'cvs' => $cvs,
                 'error' => $error,
+                'message' => $message,
             ]
         ];
     }
