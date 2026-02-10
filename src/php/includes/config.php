@@ -37,6 +37,7 @@ function get_page_url($page_name) {
 
         'staff-dashboard' => '/staff/dashboard',
         'staff-job' => '/staff/jobs',
+        'staff-add-job' => '/staff/addjob',
     ];
 
     return $routes[$page_name] ?? '/app/home';
@@ -54,6 +55,7 @@ function get_page_title($page_name) {
         
         'staff-dashboard' => 'Staff Dashboard',
         'staff-job' => 'Staff Jobs',
+        'staff-add-job' => 'Create a Job',
     ];
     return isset($titles[$page_name]) ? $titles[$page_name] : 'Home';
 }
