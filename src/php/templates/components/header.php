@@ -28,7 +28,10 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="<?php echo get_page_url('home'); ?>">📄 CV Generator</a>
+            <a class="navbar-brand fw-bold" href="<?php echo get_page_url('home'); ?>">
+                <img src="/templates/components/logo/groupLogoIcon.svg" alt="Group logo" style="height: 24px; width: auto; margin-right: 8px;">
+                CV Generator
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
