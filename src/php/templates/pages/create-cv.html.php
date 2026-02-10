@@ -85,12 +85,8 @@
                                                             Graduated: <?php echo date('M Y', strtotime($edu['graduation_date'])); ?>
                                                         </small>
                                                     </div>
-                                                    <form method="POST" action="/app/create" class="ms-2">
-                                                        <input type="hidden" name="action" value="delete_education">
-                                                        <input type="hidden" name="education_id" value="<?php echo $edu['education_id']; ?>">
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                                onclick="return confirm('Delete this education entry?')">Delete</button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger ms-2"
+                                                            onclick="showDeleteModal('delete_education', 'education_id', '<?php echo $edu['education_id']; ?>', '<?php echo htmlspecialchars($edu['title']); ?>')">Delete</button>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
@@ -148,12 +144,8 @@
                                                         <p class="mb-1 text-muted"><?php echo htmlspecialchars($exp['location']); ?> | <?php echo htmlspecialchars($exp['duration']); ?></p>
                                                         <small class="text-muted"><?php echo htmlspecialchars($exp['content']); ?></small>
                                                     </div>
-                                                    <form method="POST" action="/app/create" class="ms-2">
-                                                        <input type="hidden" name="action" value="delete_experience">
-                                                        <input type="hidden" name="experience_id" value="<?php echo $exp['experience_id']; ?>">
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                                onclick="return confirm('Delete this experience entry?')">Delete</button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger ms-2"
+                                                            onclick="showDeleteModal('delete_experience', 'experience_id', '<?php echo $exp['experience_id']; ?>', '<?php echo htmlspecialchars($exp['job_title']); ?>')">Delete</button>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
@@ -211,12 +203,8 @@
                                                         <h6 class="mb-1"><?php echo htmlspecialchars($award['title']); ?></h6>
                                                         <small class="text-muted"><?php echo htmlspecialchars($award['description']); ?></small>
                                                     </div>
-                                                    <form method="POST" action="/app/create" class="ms-2">
-                                                        <input type="hidden" name="action" value="delete_award">
-                                                        <input type="hidden" name="award_id" value="<?php echo $award['award_id']; ?>">
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                                onclick="return confirm('Delete this award?')">Delete</button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger ms-2"
+                                                            onclick="showDeleteModal('delete_award', 'award_id', '<?php echo $award['award_id']; ?>', '<?php echo htmlspecialchars($award['title']); ?>')">Delete</button>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
@@ -374,6 +362,40 @@
         </div>
     </div>
 </section>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteItemName"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/app/create" id="deleteForm" class="d-inline">
+                    <input type="hidden" name="action" id="deleteAction">
+                    <input type="hidden" name="" id="deleteIdField">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showDeleteModal(action, idName, idValue, itemName) {
+    document.getElementById('deleteAction').value = action;
+    var idField = document.getElementById('deleteIdField');
+    idField.name = idName;
+    idField.value = idValue;
+    document.getElementById('deleteItemName').textContent = itemName;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+}
+</script>
 
 <script>
 (function() {
