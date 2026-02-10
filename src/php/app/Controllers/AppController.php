@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use function login_check;
 
-class AppController
+class AppController extends Controller
 {
     public function __construct(
         private \PDO $pdo
@@ -26,11 +26,6 @@ class AppController
                 'dbConnected' => $dbConnected
             ]
         ];
-    }
-
-    private function getUserId(): int
-    {
-        return $_SESSION['loggedIn']['id'] ?? 0;
     }
 
     public function create()

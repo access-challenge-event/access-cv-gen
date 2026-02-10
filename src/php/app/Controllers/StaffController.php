@@ -2,16 +2,24 @@
 
 namespace App\Controllers;
 
-class StaffController
+use Classes\DatabaseTable;
+
+class StaffController extends Controller
 {
-    public function __construct() {}
+    public function __construct(
+        public DatabaseTable $userTable,
+    ) {}
 
     public function dashboard()
     {
+        $userId = $this->getUserId();
+        $user = $this->userTable->find('user_id', $userId)[0] ?? null;
+
         return [
             'title' => 'Dashboard',
             'template' => 'staff-dashboard.html.php',
             'vars' => [
+                'user' => $user,
                 'tempJobs' => [
                     [
                         "title" => "Job Title 1",

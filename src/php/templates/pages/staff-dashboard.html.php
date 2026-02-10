@@ -1,8 +1,8 @@
 <!-- Status Section -->
-<section class="py-5 bg-light">
+ <section class="py-5 bg-light">
     <div class="container">
         <h2 class="mb-4 text-center">CV Generator</h2>
-        <p class="mb-4 text-center">Welcome back, NAME</P>
+        <p class="mb-4 text-center">Welcome back, <?= htmlspecialchars($user['username'] ?? 'User') ?></P>
     </div>
 </section>
 
