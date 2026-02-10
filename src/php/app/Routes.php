@@ -32,7 +32,7 @@ class Routes {
         $controllers = [
             'app' => new \App\Controllers\AppController($pdo),
             'auth' => new \App\Controllers\AuthController($userTable),
-            'staff' => new \App\Controllers\StaffController($userTable),
+            'staff' => new \App\Controllers\StaffController($pdo, $userTable),
         ];
 
         if (!$pageName) {

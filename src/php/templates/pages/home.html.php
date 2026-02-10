@@ -25,38 +25,6 @@
     </div>
 </section>
 
-<!-- Status Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="mb-4 text-center">System Status</h2>
-        <div class="row g-3">
-            <!-- PHP Status -->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">🐘 PHP Server</h5>
-                        <p class="badge bg-success fs-6">Running</p>
-                        <p class="text-muted small mt-2">Frontend application</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Database Status -->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">🗄️ Database</h5>
-                        <p class="badge <?php echo $dbConnected ? 'bg-success' : 'bg-danger'; ?> fs-6">
-                            <?php echo $dbConnected ? '✓ Connected' : '✗ Disconnected'; ?>
-                        </p>
-                        <p class="text-muted small mt-2">MySQL database</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Features Section -->
 <section class="py-5">
     <div class="container">
