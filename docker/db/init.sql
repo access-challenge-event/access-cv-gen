@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 10, 2026 at 10:24 AM
+-- Generation Time: Feb 10, 2026 at 11:18 AM
 -- Server version: 8.4.8
 -- PHP Version: 8.3.30
 
@@ -160,16 +160,17 @@ CREATE TABLE `users` (
   `about` text,
   `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `deleted` int DEFAULT '0'
+  `deleted` int DEFAULT '0',
+  `company` varchar(80) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `firstname`, `lastname`, `age`, `role`, `about`, `date_created`, `date_updated`, `deleted`) VALUES
-(1, 'admin', 'admin@example.com', '$2y$10$OUdm811eErUpu/IhWxiYYOlXRp6zIY.gMQYgu4DeXcRspfdDGDOG6', '', '', NULL, 'staff', NULL, '2026-02-09 20:45:26', '2026-02-09 20:45:26', 0),
-(2, 'johndoe', 'john.doe@example.com', '$2y$10$6PVaQnWzTbkw0JH08pxR.eYAU5yMG0YTEqE1y4o/VCx19MNy.nQPi', 'John', 'Doe', '2000-03-12', NULL, 'I am a white male', '2026-02-09 20:52:31', '2026-02-10 10:24:24', 0);
+INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `firstname`, `lastname`, `age`, `role`, `about`, `date_created`, `date_updated`, `deleted`, `company`) VALUES
+(1, 'admin', 'admin@example.com', '$2y$10$OUdm811eErUpu/IhWxiYYOlXRp6zIY.gMQYgu4DeXcRspfdDGDOG6', '', '', NULL, 'staff', NULL, '2026-02-09 20:45:26', '2026-02-10 10:56:05', 0, 'Access Group'),
+(2, 'johndoe', 'john.doe@example.com', '$2y$10$6PVaQnWzTbkw0JH08pxR.eYAU5yMG0YTEqE1y4o/VCx19MNy.nQPi', 'John', 'Doe', '2000-03-12', NULL, 'I am an aspiring applicant.', '2026-02-09 20:52:31', '2026-02-10 11:00:15', 0, NULL);
 
 --
 -- Indexes for dumped tables
